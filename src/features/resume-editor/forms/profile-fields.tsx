@@ -1,0 +1,433 @@
+"use client";
+
+import { useState, type ComponentProps, type ReactNode } from "react";
+import { Controller, type FieldError as RhfFieldError } from "react-hook-form";
+import {
+  BriefcaseBusinessIcon,
+  ImageUpIcon,
+  Link,
+  Mail,
+  MapPin,
+  PencilIcon,
+  Phone,
+  PlusIcon,
+  Trash2Icon,
+  UserRoundIcon,
+} from "lucide-react";
+
+import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ConfirmDeleteDialog } from "@/components/ui/confirm-delete-dialog";
+import {
+  Field,
+  FieldContent,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldLegend,
+  FieldSet,
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import {
+  DESTRUCTIVE_ICON_CLASS,
+  FOCUS_RING_CLASS,
+} from "@/features/resume-editor/forms/fields/field-control";
+import { FieldLabelText } from "@/features/resume-editor/forms/fields/field-label-text";
+import { PhotoCropDialog } from "@/features/resume-editor/forms/photo-crop-dialog";
+import type { ProfileFormContext } from "@/features/resume-editor/forms/use-profile-form";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group";
+
+type ProfileForm = ProfileFormContext["form"];
+type FieldPath = Parameters<ProfileForm["getFieldState"]>[0];
+
+type ProfileFieldsProps = {
+  ctx: ProfileFormContext;
+  /** Prefix for input ids so two mounts never collide. */
+  idPrefix: string;
+};
+
+export function ProfileFields({ ctx, idPrefix }: ProfileFieldsProps) {
+  const { form, extraLinks, photo, links } = ctx;
+  const { register, formState, getFieldState } = form;
+
+  const invalid = (name: Parameters<typeof getFieldState>[0]) =>
+    getFieldState(name, formState).invalid || undefined;
+  const error = (name: Parameters<typeof getFieldState>[0]) =>
+    getFieldState(name, formState).error;
+
+  return (
+    <div className="@container/fields">
+      <FieldGroup layout="grid">
+        <PhotoField
+          photo={photo}
+          id={`${idPrefix}-photo`}
+          error={error("photo")}
+          className="col-span-full"
+        />
+
+        <ProfileTextField
+          register={register}
+          name="fullName"
+          id={`${idPrefix}-full-name`}
+          label="Full name"
+          placeholder="Full name"
+          autoComplete="name"
+          invalid={invalid("fullName")}
+          error={error("fullName")}
+          className="col-span-full"
+        />
+
+        <ProfileTextField
+          register={register}
+          name="headline"
+          id={`${idPrefix}-headline`}
+          label="Job title"
+          placeholder="Job title"
+          autoComplete="organization-title"
+          icon={<BriefcaseBusinessIcon />}
+          invalid={invalid("headline")}
+          error={error("headline")}
+          className="col-span-full"
+        />
+
+        <ProfileTextField
+          register={register}
+          name="location"
+          id={`${idPrefix}-location`}
+          label="Location"
+          placeholder="City, country"
+          autoComplete="address-level2"
+          icon={<MapPin />}
+          invalid={invalid("location")}
+          error={error("location")}
+        />
+
+        <ProfileTextField
+          register={register}
+          name="phone"
+          id={`${idPrefix}-phone`}
+          label="Phone number"
+          placeholder="+62 822-3044-2367"
+          type="tel"
+          autoComplete="tel"
+          inputMode="tel"
+          spellCheck={false}
+          icon={<Phone />}
+          invalid={invalid("phone")}
+          error={error("phone")}
+        />
+
+        <ProfileTextField
+          register={register}
+          name="email"
+          id={`${idPrefix}-email`}
+          label="Email address"
+          placeholder="email.me@here.is"
+          type="email"
+          autoComplete="email"
+          inputMode="email"
+          spellCheck={false}
+          icon={<Mail />}
+          invalid={invalid("email")}
+          error={error("email")}
+          className="col-span-full"
+        />
+      </FieldGroup>
+
+      {/* Divider rule between groups: 16px above and below, the between-groups
+          step. A flex gap can't space a visible rule, so it's margin+padding. */}
+      <FieldSet className="mt-4 border-t pt-4">
+        <FieldLegend>
+          Links
+          <Badge variant="secondary">
+            {extraLinks.fields.length} item
+            {extraLinks.fields.length === 1 ? "" : "s"}
+          </Badge>
+        </FieldLegend>
+
+        {extraLinks.fields.length === 0 ? (
+          <div className="text-sm text-muted-foreground">No links added.</div>
+        ) : (
+          // A row list, not a form — 8px. The labels here are sr-only, so
+          // there's no floated label needing the 16px clearance.
+          <div className="flex flex-col gap-2">
+            {extraLinks.fields.map((field, index) => {
+              const urlFieldName = `extraLinks.${index}.url` as const;
+              const inputId = `${idPrefix}-link-url-${field.id}`;
+
+              return (
+                <div key={field.fieldKey} className="flex items-center gap-2">
+                  <Field
+                    className="flex-1"
+                    data-invalid={invalid(urlFieldName)}
+                  >
+                    <FieldLabel htmlFor={inputId} className="sr-only">
+                      <FieldLabelText label={`Link ${index + 1}`} />
+                    </FieldLabel>
+                    <FieldContent>
+                      <Controller
+                        control={form.control}
+                        name={urlFieldName}
+                        render={({ field: nextField }) => (
+                          <InputGroup>
+                            <InputGroupAddon>
+                              <Link />
+                            </InputGroupAddon>
+                            <InputGroupInput
+                              id={inputId}
+                              name={nextField.name}
+                              type="url"
+                              autoComplete="url"
+                              inputMode="url"
+                              spellCheck={false}
+                              autoCapitalize="none"
+                              autoCorrect="off"
+                              value={nextField.value}
+                              placeholder="https://www.linkedin.com/in/your-handle"
+                              aria-invalid={invalid(urlFieldName)}
+                              onChange={nextField.onChange}
+                            />
+                          </InputGroup>
+                        )}
+                      />
+                      <FieldError errors={[error(urlFieldName)]} />
+                    </FieldContent>
+                  </Field>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    aria-label={`Remove link ${index + 1}`}
+                    title={`Remove link ${index + 1}`}
+                    onClick={() => links.requestDelete(index)}
+                    className={DESTRUCTIVE_ICON_CLASS}
+                  >
+                    <Trash2Icon />
+                  </Button>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        <Button type="button" className="w-full" onClick={links.add}>
+          <PlusIcon data-icon="inline-start" />
+          Add Link
+        </Button>
+      </FieldSet>
+
+      <ConfirmDeleteDialog
+        open={links.pendingDeleteIndex !== null}
+        onOpenChange={(open) => {
+          if (!open) links.cancelDelete();
+        }}
+        onConfirm={links.confirmDelete}
+        title="Remove link?"
+        description="This link will be removed from your profile."
+      />
+
+      <PhotoCropDialog
+        open={photo.crop.open}
+        imageUrl={photo.crop.imageUrl}
+        image={photo.crop.image}
+        onApply={photo.applyCrop}
+        onCancel={photo.cancelCrop}
+      />
+    </div>
+  );
+}
+
+type ProfileTextFieldProps = {
+  register: ProfileForm["register"];
+  name: FieldPath;
+  id: string;
+  label: string;
+  placeholder: string;
+  invalid: boolean | undefined;
+  error: RhfFieldError | undefined;
+  icon?: ReactNode;
+  className?: string;
+  type?: ComponentProps<"input">["type"];
+  autoComplete?: string;
+  inputMode?: ComponentProps<"input">["inputMode"];
+  spellCheck?: boolean;
+};
+
+function ProfileTextField({
+  register,
+  name,
+  id,
+  label,
+  placeholder,
+  invalid,
+  error,
+  icon,
+  className,
+  type,
+  autoComplete,
+  inputMode,
+  spellCheck,
+}: ProfileTextFieldProps) {
+  const sharedInputProps = {
+    id,
+    type,
+    autoComplete,
+    inputMode,
+    spellCheck,
+    placeholder,
+    "aria-invalid": invalid,
+    ...register(name),
+  };
+
+  return (
+    <Field data-invalid={invalid} className={className}>
+      <FieldLabel htmlFor={id} className="sr-only">
+        <FieldLabelText label={label} />
+      </FieldLabel>
+      <FieldContent>
+        {icon ? (
+          <InputGroup>
+            <InputGroupAddon>{icon}</InputGroupAddon>
+            <InputGroupInput {...sharedInputProps} />
+          </InputGroup>
+        ) : (
+          <Input {...sharedInputProps} />
+        )}
+        <FieldError errors={[error]} />
+      </FieldContent>
+    </Field>
+  );
+}
+
+function PhotoAvatarButton({
+  id,
+  hasPhoto,
+  url,
+  onClick,
+}: {
+  id: string;
+  hasPhoto: boolean;
+  url: string | undefined;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      id={id}
+      onClick={onClick}
+      aria-label={hasPhoto ? "Change profile photo" : "Upload profile photo"}
+      className={cn(
+        "group relative size-20 shrink-0 overflow-hidden rounded-full bg-muted ring-1 ring-border outline-none transition-[color,box-shadow]",
+        FOCUS_RING_CLASS,
+      )}
+    >
+      {hasPhoto ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={url}
+          alt="Profile preview"
+          className="h-full w-full object-cover"
+        />
+      ) : (
+        <span className="flex h-full w-full items-center justify-center text-muted-foreground">
+          <UserRoundIcon className="size-7" />
+        </span>
+      )}
+      <span className="absolute inset-0 flex items-center justify-center bg-foreground/45 text-background opacity-0 transition-opacity group-hover:opacity-100">
+        {hasPhoto ? (
+          <PencilIcon className="size-5" />
+        ) : (
+          <ImageUpIcon className="size-5" />
+        )}
+      </span>
+    </button>
+  );
+}
+
+function PhotoField({
+  photo,
+  id,
+  error,
+  className,
+}: {
+  photo: ProfileFormContext["photo"];
+  id: string;
+  error: RhfFieldError | undefined;
+  className?: string;
+}) {
+  const [dragging, setDragging] = useState(false);
+  const hasPhoto = Boolean(photo.url);
+
+  return (
+    <Field className={className} data-invalid={error ? true : undefined}>
+      <FieldLabel htmlFor={id} className="sr-only">
+        <FieldLabelText label="Profile photo" />
+      </FieldLabel>
+      <FieldContent>
+        <div
+          data-dragging={dragging || undefined}
+          onDragOver={(event) => {
+            event.preventDefault();
+            setDragging(true);
+          }}
+          onDragLeave={() => setDragging(false)}
+          onDrop={(event) => {
+            event.preventDefault();
+            setDragging(false);
+            const file = event.dataTransfer.files?.[0];
+            if (file) void photo.handleFile(file);
+          }}
+          className={cn(
+            "flex flex-col items-center gap-3 rounded-lg border border-dashed border-input p-4 text-center transition-colors",
+            "@field-2col/fields:flex-row @field-2col/fields:items-center @field-2col/fields:gap-4 @field-2col/fields:p-3 @field-2col/fields:text-left",
+            "hover:border-ring",
+            "data-[dragging]:border-primary data-[dragging]:bg-primary/5 data-[dragging]:text-foreground",
+          )}
+        >
+          <PhotoAvatarButton
+            id={id}
+            hasPhoto={hasPhoto}
+            url={photo.url}
+            onClick={photo.openPicker}
+          />
+
+          <div className="flex w-full min-w-0 flex-col items-center gap-2 @field-2col/fields:w-auto @field-2col/fields:flex-1 @field-2col/fields:items-start">
+            <div className="flex flex-wrap justify-center gap-2 @field-2col/fields:justify-start">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={photo.openPicker}
+              >
+                <ImageUpIcon data-icon="inline-start" />
+                {hasPhoto ? "Change photo" : "Upload photo"}
+              </Button>
+              {hasPhoto ? (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={photo.remove}
+                  className={DESTRUCTIVE_ICON_CLASS}
+                >
+                  <Trash2Icon data-icon="inline-start" />
+                  Remove
+                </Button>
+              ) : null}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Drag &amp; drop or click to upload. PNG, JPG, or WEBP up to
+              8&nbsp;MB. Crop and zoom after choosing.
+            </p>
+          </div>
+        </div>
+        <FieldError errors={[error]} />
+      </FieldContent>
+    </Field>
+  );
+}

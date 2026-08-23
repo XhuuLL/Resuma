@@ -1,0 +1,351 @@
+.root {
+  /* Lines within the identity block, not between items (that's --resume-gap-item). */
+  --resume-gap-header: 3px;
+  font-family: var(--resume-font);
+  color: var(--resume-text);
+  font-size: var(--resume-body);
+  line-height: var(--resume-leading);
+/* Full-bleed: the root spans the whole sheet, so edge-to-edge rails/bands reach the bottom edge. */
+  display: flex;
+  flex-direction: column;
+  min-height: var(--resume-paper-height);
+}
+
+/* Stretch the layout (always the root's first child) so full-height decorative
+   surfaces (Split/Sidebar rails) meet the page edge; later siblings keep their
+   natural height. */
+.root > :global(*:first-child) {
+  flex: 1 0 auto;
+}
+
+/* Shared content insets — layouts opt in per side so decorative surfaces can bleed to the paper edge. */
+:where(.root) :global(.page-inset) {
+  padding: var(--resume-page-margin);
+}
+
+:where(.root) :global(.page-inset-x) {
+  padding-left: var(--resume-page-margin);
+  padding-right: var(--resume-page-margin);
+}
+
+:where(.root) :global(.page-inset-t) {
+  padding-top: var(--resume-page-margin);
+}
+
+:where(.root) :global(.page-inset-b) {
+  padding-bottom: var(--resume-page-margin);
+}
+
+:where(.root) :global(a) {
+  color: inherit;
+  overflow-wrap: anywhere;
+}
+
+/* The cue itself is per-layout: each stylesheet sets these two properties to
+   something that stays weaker than its own section heading. */
+:where(.root)[data-link-highlight="on"] :global(a) {
+  text-decoration: var(--resume-link-decoration, underline);
+  text-underline-offset: var(--resume-link-offset, 0.15em);
+}
+
+:where(.root)[data-link-highlight="off"] :global(a) {
+  text-decoration: none;
+}
+
+/* Rendered only by the layouts that pick a glyph (see `titleLinkMarker`). */
+:where(.root) :global(.link-marker) {
+  display: inline-block;
+  width: 0.85em;
+  height: 0.85em;
+  margin-left: 0.22em;
+  vertical-align: -0.05em;
+  color: var(--resume-muted);
+  stroke-width: 2.5;
+  flex-shrink: 0;
+}
+
+/* Colour arrives via an inheriting custom property: a layout override has the
+   same specificity, so source order alone picked the winner and banner's name
+   fell back to --resume-accent. Ancestors set --resume-name-color instead. */
+/* Emitted by <WrapOnSpace> around a hyphen and the next char, so a title breaks
+   at spaces, not mid-surname. Only that run is pinned — pinning the whole word
+   would swallow `overflow-wrap`. CSS can't express this: a hyphen is a UAX#14
+   break opportunity and Chromium keeps breaking there under keep-all. */
+:where(.root) :global(.keep-word) {
+  white-space: nowrap;
+}
+
+:where(.root) :global(.name) {
+  font-size: var(--resume-h1);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--resume-name-color, var(--resume-accent));
+  margin: 0;
+  /* The name must never run off the paper edge; only overflow breaks it — normal names wrap at spaces. */
+  overflow-wrap: anywhere;
+}
+
+:where(.root) :global(.name-block) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--resume-gap-header);
+  min-width: 0;
+}
+
+/* Sized off the name, not the body ramp; full-strength colour so it doesn't turn to mud on a band. */
+:where(.root) :global(.headline) {
+  font-size: calc(var(--resume-h1) * 0.52);
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--resume-headline-color, currentColor);
+  margin: 0;
+}
+
+/* Same inheriting-property hand-off as `.name` — a layout override ties this rule on specificity. */
+:where(.root) :global(.section-heading) {
+  font-size: var(--resume-h2);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--resume-heading-color, var(--resume-accent));
+  margin: 0;
+}
+
+:where(.root) :global(.item-title) {
+  font-size: var(--resume-h3);
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.25;
+  overflow-wrap: break-word;
+}
+
+/* Titles inherit the layout's contact cue, so one layout can't underline its
+   contacts solid and its titles dotted. Only the glyph layouts override it —
+   to `none`, because their `titleLinkMarker` is the cue instead. */
+:where(.root)[data-link-highlight="on"] :global(.item-title a) {
+  text-decoration: var(
+    --resume-link-title-decoration,
+    var(--resume-link-decoration, underline)
+  );
+  text-underline-offset: var(--resume-link-offset, 0.15em);
+  color: inherit;
+}
+
+:where(.root)[data-link-highlight="off"] :global(.item-title a) {
+  text-decoration: none;
+  color: inherit;
+}
+
+:where(.root) :global(.meta) {
+  color: var(--resume-muted);
+  font-size: var(--resume-meta);
+  /* Long unbreakable tokens otherwise spill out of a narrow column. */
+  overflow-wrap: break-word;
+}
+
+:where(.root) :global(.contact-block) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--resume-gap-header);
+  min-width: 0;
+}
+
+:where(.root) :global(.contact-line) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--resume-meta);
+}
+
+:where(.root) :global(.contact-line .contact-item) {
+  display: inline;
+}
+
+/* Separator dots live in CSS so layouts can stack items; spacing is margin, not
+   part of `content`, so the dot sits evenly between items. */
+:where(.root) :global(.contact-line .contact-item + .contact-item)::before {
+  content: "•";
+  margin-inline: 0.45em;
+}
+
+/* Links keep the contact block's colour: a muted grey fought every coloured
+   surface — one colour, no override, no contrast trap. */
+
+/* Icons take the text's own colour, so they inherit whatever surface they land on. */
+:where(.root) :global(.contact-icon) {
+  display: inline-block;
+  width: 0.875em;
+  height: 0.875em;
+  margin-top: -0.06em;
+  margin-right: 0.32em;
+  stroke-width: 2;
+  flex-shrink: 0;
+}
+
+/* An icon already says which field this is, so the dot would be noise. */
+:where(.root) :global(.contact-line-iconic .contact-item + .contact-item)::before {
+  content: none;
+}
+
+:where(.root) :global(.contact-line-iconic) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--resume-gap-item);
+}
+
+:where(.root) :global(.contact-line-iconic .contact-item) {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+}
+
+/* Bind each icon to its own text: an inline anchor would wrap after the glyph
+   and strand it alone on the line above; the text still breaks via min-width: 0. */
+:where(.root) :global(.contact-line-iconic .contact-item > a),
+:where(.root) :global(.contact-line-iconic .contact-item > span) {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+}
+
+/* The flex child <span> has min-width: auto by default, forcing its parent
+   inline-flex container as wide as the URL text; min-width: 0 lets it wrap in a narrow rail. */
+:where(.root) :global(.contact-line-iconic .contact-item > a > span),
+:where(.root) :global(.contact-line-iconic .contact-item > span > span) {
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+/* Stacked: one contact per line — an inline run of emails/URLs has nowhere to wrap in narrow rails. */
+:where(.root) :global(.contact-line-stacked) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--resume-gap-inner);
+}
+
+:where(.root) :global(.contact-line-stacked .contact-item) {
+  display: flex;
+  align-items: center;
+}
+
+:where(.root) :global(.contact-line-stacked .contact-item + .contact-item)::before {
+  content: none;
+}
+
+/* Labelled: the field name sits over its value; stacked already puts one item per line. */
+:where(.root) :global(.contact-line-labeled .contact-item) {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+}
+
+:where(.root) :global(.contact-label) {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: var(--resume-meta);
+  color: var(--resume-text);
+}
+
+/* Shortened labels fit, so only break a link as a last resort. */
+:where(.root) :global(.contact-line a) {
+  overflow-wrap: anywhere;
+}
+
+:where(.root) :global(.item-list) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--resume-gap-item);
+  min-width: 0;
+}
+
+:where(.root) :global(.section) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--resume-gap-item);
+  min-width: 0;
+}
+
+:where(.root) :global(.item) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--resume-gap-inner);
+  min-width: 0;
+  /* With zero physical PDF margins, page breaks land in section gaps, not mid-item. */
+  break-inside: avoid;
+}
+
+:where(.root) :global(.item-row) {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--resume-gap-item);
+}
+
+:where(.root) :global(.item-row .item-title) {
+  flex-shrink: 0;
+}
+
+:where(.root) :global(.item-row .meta) {
+  text-align: right;
+}
+
+:where(.root) :global(.item-header) {
+  display: grid;
+  /* `fit-content(38%)`, not `auto`: an auto track takes max-content and forces
+     the title — the only flexible track — to wrap one word per line; both
+     columns break instead. */
+  grid-template-columns: minmax(0, 1fr) fit-content(38%);
+  align-items: start;
+  gap: var(--resume-gap-item);
+}
+
+:where(.root) :global(.item-header-main) {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+:where(.root) :global(.item-header-side) {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+:where(.root) :global(.item-date) {
+  color: var(--resume-muted);
+  font-size: var(--resume-meta);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+:where(.root) :global(.section-indent) {
+  padding-left: var(--resume-indent);
+}
+
+:where(.root) :global(.rich-text) {
+  text-align: justify;
+}
+
+:where(.root) :global(.rich-text p) {
+  margin: 0;
+}
+
+:where(.root) :global(.rich-text p + p) {
+  margin-top: 6px;
+}
+
+:where(.root) :global(.rich-text ul),
+:where(.root) :global(.rich-text ol) {
+  margin: 0;
+  padding-left: 1.25em;
+}
+
+:where(.root) :global(.rich-text:empty) {
+  display: none;
+}
+
+/* Each layout provides its own layout-scoped CSS module — see preview/layouts/<name>/styles.module.css */

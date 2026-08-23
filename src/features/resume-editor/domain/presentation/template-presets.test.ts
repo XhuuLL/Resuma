@@ -1,0 +1,192 @@
+import { describe, expect, it } from "vitest";
+
+import {
+  createDefaultPdfPresentation,
+  pdfLayoutIds,
+} from "@/features/resume-editor/domain/presentation/pdf-presentation";
+import {
+  applyTemplatePreset,
+  applyTemplatePresetLayoutOnly,
+  getActiveTemplatePresetId,
+  resumeTemplatePresets,
+  templateCategories,
+  templateCategoryIds,
+} from "@/features/resume-editor/domain/presentation/template-presets";
+import { pdfPresentationSchema } from "@/features/resume-editor/domain/schema/presentation-schemas";
+
+describe("resumeTemplatePresets", () => {
+  it("has globally unique ids", () => {
+    const ids = resumeTemplatePresets.map((preset) => preset.id);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it("only references known layouts, and covers every layout", () => {
+    const layoutsUsed = new Set(
+      resumeTemplatePresets.map((preset) => preset.layoutId),
+    );
+    for (const layoutId of layoutsUsed) {
+      expect(pdfLayoutIds).toContain(layoutId);
+    }
+    // Every layout must be reachable from the template gallery.
+    expect(layoutsUsed.size).toBe(pdfLayoutIds.length);
+  });
+
+  it("gives every preset a category, and every filter chip results", () => {
+    const seen = new Set<string>();
+    for (const preset of resumeTemplatePresets) {
+      const categories = templateCategories(preset);
+      expect(categories.length).toBeGreaterThan(0);
+      for (const category of categories) {
+        expect(templateCategoryIds).toContain(category);
+        seen.add(category);
+      }
+    }
+    // A chip that filters down to an empty grid is a dead control.
+    expect(seen.size).toBe(templateCategoryIds.length);
+  });
+
+  it("every applied preset yields a valid presentation", () => {
+    const current = createDefaultPdfPresentation();
+    for (const preset of resumeTemplatePresets) {
+      const applied = applyTemplatePreset(preset, current);
+      expect(() => pdfPresentationSchema.parse(applied)).not.toThrow();
+    }
+  });
+
+  it("curates secondary only for the layouts that render it", () => {
+    // Only the six layouts that render it read --resume-secondary; anywhere else it's data the
+    // page can't show, yet the active-template match still compares it.
+    const RENDERS_SECONDARY = new Set([
+      "modern-centered",
+      "split",
+      "duet",
+      "aurora",
+      "dossier",
+      "masthead",
+      "editorial",
+    ]);
+    for (const preset of resumeTemplatePresets) {
+      if (preset.style.secondary) {
+        expect(
+          RENDERS_SECONDARY.has(preset.layoutId),
+          `${preset.id} sets a secondary that ${preset.layoutId} never renders`,
+        ).toBe(true);
+      }
+    }
+  });
+
+  it("keeps bold-type's accent vivid, since it is the highlighter", () => {
+    // bold-type spends accent on the marker highlight and dates, not heading text;
+    // a near-black accent there reads as a grey smudge.
+    const luminance = (hex: string) => {
+      const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
+      return (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+    };
+    for (const preset of resumeTemplatePresets) {
+      if (preset.layoutId !== "bold-type") continue;
+      expect(
+        luminance(preset.style.accent),
+        `${preset.id} accent is too dark to read as a highlight`,
+      ).toBeGreaterThan(0.2);
+    }
+  });
+});
+
+describe("applyTemplatePreset", () => {
+  const preset = resumeTemplatePresets[0];
+
+  it("preserves the user's paper size", () => {
+    const current = {
+      ...createDefaultPdfPresentation(),
+      paperSize: "letter" as const,
+    };
+    expect(applyTemplatePreset(preset, current).paperSize).toBe("letter");
+  });
+
+  it("preserves the user's link highlighting, which no template curates", () => {
+    const current = {
+      ...createDefaultPdfPresentation(),
+      linkHighlight: false,
+    };
+    expect(applyTemplatePreset(preset, current).linkHighlight).toBe(false);
+  });
+
+  it("clears photoShape so the layout's native look applies", () => {
+    const current = {
+      ...createDefaultPdfPresentation(),
+      photoShape: "circle" as const,
+    };
+    expect(applyTemplatePreset(preset, current).photoShape).toBeUndefined();
+  });
+
+  it("clears secondary when the preset does not curate one", () => {
+    const noSecondary = resumeTemplatePresets.find((p) => !p.style.secondary);
+    expect(noSecondary).toBeDefined();
+    const current = {
+      ...createDefaultPdfPresentation(),
+      secondary: "#123456",
+    };
+    expect(
+      applyTemplatePreset(noSecondary!, current).secondary,
+    ).toBeUndefined();
+  });
+});
+
+describe("applyTemplatePresetLayoutOnly", () => {
+  it("swaps only layoutId, preserving the rest of the current style", () => {
+    const current = {
+      ...createDefaultPdfPresentation(),
+      accent: "#facade",
+      secondary: "#123456",
+      fontFamilyId: "georgia" as const,
+      fontScale: "lg" as const,
+      spacing: "airy" as const,
+      lineHeight: "relaxed" as const,
+      paperSize: "letter" as const,
+      photoShape: "circle" as const,
+    };
+    const preset = resumeTemplatePresets.find(
+      (p) => p.layoutId !== current.layoutId,
+    );
+    expect(preset).toBeDefined();
+
+    const applied = applyTemplatePresetLayoutOnly(preset!, current);
+
+    expect(applied.layoutId).toBe(preset!.layoutId);
+    expect(applied.accent).toBe(current.accent);
+    expect(applied.secondary).toBe(current.secondary);
+    expect(applied.fontFamilyId).toBe(current.fontFamilyId);
+    expect(applied.fontScale).toBe(current.fontScale);
+    expect(applied.spacing).toBe(current.spacing);
+    expect(applied.lineHeight).toBe(current.lineHeight);
+    expect(applied.paperSize).toBe(current.paperSize);
+    expect(applied.photoShape).toBe(current.photoShape);
+  });
+});
+
+describe("getActiveTemplatePresetId", () => {
+  it("round-trips: applying a preset makes it the active one", () => {
+    const current = createDefaultPdfPresentation();
+    for (const preset of resumeTemplatePresets) {
+      const applied = applyTemplatePreset(preset, current);
+      expect(getActiveTemplatePresetId(applied)).toBe(preset.id);
+    }
+  });
+
+  it("drops off after a manual style tweak", () => {
+    const applied = applyTemplatePreset(
+      resumeTemplatePresets[0],
+      createDefaultPdfPresentation(),
+    );
+    expect(
+      getActiveTemplatePresetId({ ...applied, accent: "#facade" }),
+    ).toBeNull();
+  });
+
+  it("matches the stock default presentation to aurora-haze", () => {
+    // The template gallery must highlight the default template on first load.
+    expect(getActiveTemplatePresetId(createDefaultPdfPresentation())).toBe(
+      "aurora-haze",
+    );
+  });
+});

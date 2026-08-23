@@ -1,0 +1,232 @@
+/* Full-bleed: the colour band paints to the top/left/right paper edges; the
+   body below keeps the page margin. */
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--resume-gap-section);
+}
+
+.layout :global(.layout-body) {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0 var(--resume-page-margin) var(--resume-page-margin);
+}
+
+/* The label gutter: heading in a fixed left column, content beside it. The
+   hairline sits under each section and stays faint — it separates, not stripes. */
+.layout :global(.section) {
+  display: grid;
+  grid-template-columns: 128px minmax(0, 1fr);
+  gap: var(--resume-gutter);
+  align-items: start;
+  padding: var(--resume-gap-section) 0;
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--resume-border) 40%, transparent);
+}
+
+/* The band already supplies the air above the first section. */
+.layout :global(.layout-body > *:first-child .section),
+.layout :global(.layout-body > .section:first-child) {
+  padding-top: 0;
+}
+
+.layout :global(.section-heading) {
+  grid-column: 1;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: var(--resume-h2);
+  color: var(--resume-text);
+}
+
+.layout :global(.section .item-list),
+.layout :global(.section .rich-text) {
+  grid-column: 2;
+}
+
+/* Dates sit right, spaced out and tabular so the column reads as a rail. */
+.layout :global(.item-date) {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  color: var(--resume-muted);
+  white-space: nowrap;
+}
+
+.layout :global(.item-title) {
+  font-weight: 700;
+}
+
+/* Small solid dots, drawn rather than inherited, so they match the muted text
+   instead of the browser's default disc. */
+.layout :global(.rich-text ul) {
+  list-style: none;
+  padding-left: var(--resume-indent);
+}
+
+.layout :global(.rich-text ul > li) {
+  position: relative;
+}
+
+.layout :global(.rich-text ul > li)::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--resume-indent) * -1);
+  top: 0.5em;
+  /* Whole pixels and a 50% radius: an em-sized box lands on fractions and
+     antialiases into an oval on some lines but not others. */
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--resume-muted);
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+
+/* Neutral tags — the accent is spent on the band, not here. */
+.layout :global(.tag-list) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--resume-gap-inner);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  min-width: 0;
+}
+
+.layout :global(.tag) {
+  padding: 0.12em 0.5em;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--resume-text) 7%, transparent);
+  font-size: var(--resume-meta);
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+
+/* Two soft colour circles near the top, each fading out before its edge — blur
+   without a filter. `secondary` falls back to `accent` when a preset leaves it
+   unset, degrading to a one-hue wash rather than a broken band. */
+.header :global(.aurora-band) {
+  /* Same two tracks as `.section`, so the name/headline/pills start where the
+     content starts. Columns are explicit, so a resume with no photo keeps the
+     alignment instead of sliding the identity block into the gutter. */
+  display: grid;
+  grid-template-columns: 128px minmax(0, 1fr);
+  align-items: center;
+  gap: var(--resume-gutter);
+  background-color: #ffffff;
+  background-image:
+    /* Melts the band into the page: colour only lives up top, and the bottom
+       resolves to the paper white so there is no edge to see. */
+    linear-gradient(to bottom, rgb(255 255 255 / 0) 42%, #ffffff 100%),
+    radial-gradient(
+      62% 115% at 27% -18%,
+      var(--resume-accent) 0%,
+      transparent 72%
+    ),
+    radial-gradient(
+      58% 110% at 73% -12%,
+      var(--resume-secondary) 0%,
+      transparent 74%
+    );
+  padding: var(--resume-page-margin) var(--resume-page-margin)
+    var(--resume-gap-section);
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+
+.header :global(.header-body) {
+  grid-column: 2;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--resume-gap-header);
+}
+
+/* The band is pale by design, so the name takes the text colour — the accent
+   is the background here and would leave the name barely visible on it. */
+.header :global(.name) {
+  --resume-name-color: var(--resume-text);
+  color: var(--resume-text);
+  font-size: calc(var(--resume-h1) * 1.45);
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+}
+
+.header :global(.header-photo) {
+  grid-column: 1;
+  justify-self: start;
+  width: 92px;
+  aspect-ratio: var(--resume-photo-aspect, 3 / 4);
+  height: auto;
+  border-radius: var(--resume-photo-radius, 12px);
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 3px solid rgb(255 255 255 / 0.75);
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+
+.header :global(.header-photo img) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Links become outlined pills; the plain details stay as icon lines. */
+.header :global(.contact-block) {
+  gap: var(--resume-gap-inner);
+}
+
+/* Inline runs, like every other layout's contact line; the links wrap as a row
+   of pills instead of stacking one per line. */
+.header :global(.contact-line) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px var(--resume-gap-item);
+}
+
+.header :global(.contact-links) {
+  gap: var(--resume-gap-inner);
+}
+
+.header :global(.contact-links .contact-item) {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid color-mix(in srgb, var(--resume-text) 25%, transparent);
+  border-radius: 999px;
+  padding: 0.15em 0.7em;
+  background: rgb(255 255 255 / 0.55);
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+
+.header :global(.contact-icon) {
+  color: var(--resume-text);
+}
+
+.header :global(.headline) {
+  font-size: calc(var(--resume-h1) * 0.6);
+  font-weight: 400;
+  --resume-headline-color: var(--resume-text);
+}
+
+/* Link cue: only the link pills opt out — an underline inside a pill is a double
+   affordance. The details row is a plain icon line, so its mailto:/tel: keep a rule. */
+.layout {
+  --resume-link-decoration: underline;
+  --resume-link-offset: 0.18em;
+}
+
+.layout :global(.contact-links a) {
+  text-decoration: none;
+}
+
+/* Linked item titles take the arrow glyph (`titleLinkMarker` in layout.tsx):
+   Its contact links are pills; a glyph continues that iconic treatment onto titles. */
+
+.layout {
+  /* The glyph is the cue; a rule as well would double-mark the title. */
+  --resume-link-title-decoration: none;
+}

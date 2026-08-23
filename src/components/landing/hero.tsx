@@ -1,0 +1,226 @@
+"use client";
+
+import { useRef } from "react";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import {
+  motion,
+  MotionValue,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "motion/react";
+
+import { buttonVariants } from "@/components/ui/button";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
+import { motionTokens } from "@/lib/motion-tokens";
+import { BuilderFrame } from "./builder-showcase";
+import { KineticText } from "./kinetic-text";
+// Shared landing entrance vocabulary — single source of timing/easing.
+import { blurUp as item, staggerContainer as container } from "./reveal";
+
+const GITHUB_URL = "https://github.com/XhuuLL/Resuma";
+
+export function Hero() {
+  const reduce = useReducedMotion();
+  const isMobile = useIsMobile();
+  const ref = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+
+  // Scroll-linked (desktop-only): frame tilts back + scales down, flattening in.
+  const rotateX = useTransform(scrollYProgress, [0, 0.65], [12, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.65], [0.85, 1]);
+  // The frame rises up (faster than scroll) over the copy.
+  const frameY = useTransform(scrollYProgress, [0, 1], ["15%", "-12%"]);
+  const contentFrameY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+
+  // Entrances run everywhere (except reduced-motion); parallax/tilt only on
+  // desktop, where it's smooth and not jank-prone.
+  const entrance = !reduce;
+  const parallax = !reduce && !isMobile;
+  const itemVariants = entrance ? item : undefined;
+
+  return (
+    <section ref={ref} className="relative">
+      <div className="relative z-10 flex flex-col items-center gap-6 px-6 pt-24 text-center sm:pt-32 md:pt-48">
+        <HeroBackdrop scrollYProgress={scrollYProgress} animated={parallax} />
+
+        <motion.div
+          className="flex flex-col items-center gap-6"
+          variants={entrance ? container : undefined}
+          initial={entrance ? "hidden" : false}
+          animate={entrance ? "show" : undefined}
+          style={parallax ? { y: contentFrameY } : undefined}
+        >
+          <motion.a
+            href={GITHUB_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            variants={itemVariants}
+            className="group inline-flex items-center gap-2 rounded-full border bg-background/70 py-1 pr-2 pl-3 text-xs font-medium text-muted-foreground shadow-sm backdrop-blur transition-colors hover:text-foreground"
+          >
+            <span className="relative flex size-1.5">
+              <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-500 opacity-75" />
+              <span className="relative inline-flex size-1.5 rounded-full bg-emerald-500" />
+            </span>
+            Free &amp; open source
+            <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" />
+          </motion.a>
+
+          <motion.div variants={itemVariants}>
+            <KineticText
+              text="Resuma"
+              className="px-4 text-5xl tracking-tight md:text-7xl"
+            />
+          </motion.div>
+
+          <motion.p
+            variants={itemVariants}
+            className="max-w-md text-balance text-muted-foreground"
+          >
+            Build a recruiter-ready resume in minutes. Write once, preview as
+            you type, and export a clean PDF.
+          </motion.p>
+
+          <motion.div
+            variants={itemVariants}
+            className="flex flex-wrap items-center justify-center gap-3"
+          >
+            <a
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cn(
+                buttonVariants({ variant: "outline", size: "lg" }),
+                "px-5",
+              )}
+            >
+              <GithubMarkIcon className="size-4" />
+              Source Code
+            </a>
+            <Link
+              href="/editor"
+              className={cn(
+                buttonVariants({ variant: "ai", size: "lg" }),
+                "px-5",
+              )}
+            >
+              Open Editor
+            </Link>
+          </motion.div>
+
+          <motion.p
+            variants={itemVariants}
+            className="text-xs text-muted-foreground"
+          >
+            No sign-up. No paywall. Your data never leaves your browser.
+          </motion.p>
+        </motion.div>
+      </div>
+
+      {/* Builder frame — rises up to cover the copy */}
+      <motion.div
+        style={parallax ? { y: frameY } : undefined}
+        className="relative z-20 px-6 pt-6 md:pt-0"
+      >
+        <motion.div
+          initial={
+            entrance
+              ? {
+                  opacity: 0,
+                  y: motionTokens.distance.xl,
+                  filter: "blur(16px)",
+                }
+              : false
+          }
+          animate={
+            entrance ? { opacity: 1, y: 0, filter: "blur(0px)" } : undefined
+          }
+          transition={{
+            duration: motionTokens.duration.deliberate,
+            delay: 0.85,
+            ease: motionTokens.easing.expo,
+          }}
+          className="relative mx-auto max-w-6xl perspective-distant"
+        >
+          {/* ambient glow behind the frame */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 -top-12 bottom-0 -z-10 blur-3xl"
+            style={{
+              background:
+                "radial-gradient(60% 60% at 50% 40%, rgba(16, 185, 129, 0.28), transparent 70%)",
+            }}
+          />
+          <motion.div
+            style={
+              parallax
+                ? { rotateX, scale, transformOrigin: "center top" }
+                : undefined
+            }
+          >
+            <BuilderFrame />
+          </motion.div>
+        </motion.div>
+      </motion.div>
+    </section>
+  );
+}
+
+/** Decorative grid + aurora mesh that fades out toward the bottom of the hero. */
+function HeroBackdrop({
+  scrollYProgress,
+  animated = true,
+}: {
+  scrollYProgress: MotionValue<number>;
+  animated?: boolean;
+}) {
+  // Tamed parallax: the backdrop drifts only slightly behind the scroll.
+  const yPosition = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
+
+  return (
+    <motion.div
+      aria-hidden
+      className="pointer-events-none absolute inset-0 -z-10"
+      style={animated ? { y: yPosition } : undefined}
+    >
+      {/* Aurora mesh — layered, offset blooms in violet / indigo / fuchsia. */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: [
+            "radial-gradient(40% 40% at 30% 0%, rgba(16, 185, 129, 0.18), transparent 70%)",
+            "radial-gradient(45% 45% at 70% 8%, rgba(20, 184, 166, 0.14), transparent 72%)",
+            "radial-gradient(35% 38% at 52% 14%, rgba(6, 182, 212, 0.10), transparent 70%)",
+          ].join(", "),
+        }}
+      />
+      {/* Masked grid sits over the aurora for structure. */}
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, color-mix(in oklab, var(--foreground) 6%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in oklab, var(--foreground) 6%, transparent) 1px, transparent 1px)",
+          backgroundSize: "56px 56px",
+          maskImage:
+            "radial-gradient(ellipse 65% 55% at 50% 0%, black, transparent 75%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 65% 55% at 50% 0%, black, transparent 75%)",
+        }}
+      />
+    </motion.div>
+  );
+}
+
+function GithubMarkIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
+      <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.36-3.87-1.36-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.24 3.34.95.1-.74.4-1.24.72-1.53-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.09-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.18.91-.25 1.89-.38 2.86-.38.97 0 1.95.13 2.86.38 2.19-1.49 3.15-1.18 3.15-1.18.62 1.58.23 2.75.11 3.04.74.8 1.18 1.83 1.18 3.09 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.13v3.16c0 .31.21.67.8.55C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z" />
+    </svg>
+  );
+}

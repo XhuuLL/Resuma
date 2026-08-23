@@ -1,0 +1,91 @@
+import { buildImportedResumeDraft } from "@/features/resume-editor/server/build-imported-resume-draft";
+import { extractPdfText } from "@/features/resume-editor/server/extract-pdf-text";
+import { mapResumeTextWithGemini } from "@/features/resume-editor/server/map-resume-text-with-gemini";
+import { handleResumeImportError } from "@/features/resume-editor/server/http";
+
+export const runtime = "nodejs";
+// The Gemini fallback chain is sequential; it budgets 50s, so give it room.
+export const maxDuration = 60;
+
+const MAX_PDF_BYTES = 10 * 1024 * 1024;
+
+function isUploadedFile(value: FormDataEntryValue | null) {
+  return (
+    value !== null &&
+    typeof value !== "string" &&
+    typeof value === "object" &&
+    "arrayBuffer" in value &&
+    typeof value.arrayBuffer === "function"
+  );
+}
+
+export async function POST(request: Request) {
+  let formData: FormData;
+
+  try {
+    formData = await request.formData();
+  } catch {
+    return Response.json(
+      {
+        message: "Invalid upload payload.",
+      },
+      {
+        status: 400,
+      },
+    );
+  }
+
+  const file = formData.get("file");
+
+  if (!isUploadedFile(file)) {
+    return Response.json(
+      {
+        message: 'Missing "file" upload.',
+      },
+      {
+        status: 400,
+      },
+    );
+  }
+
+  const uploadedFile = file as Blob & { name?: string; type?: string };
+
+  const isPdf =
+    uploadedFile.type === "application/pdf" ||
+    uploadedFile.name?.toLowerCase().endsWith(".pdf");
+
+  if (!isPdf) {
+    return Response.json(
+      {
+        message: "Only PDF files are supported.",
+      },
+      {
+        status: 400,
+      },
+    );
+  }
+
+  if (uploadedFile.size > MAX_PDF_BYTES) {
+    return Response.json(
+      {
+        message: `PDF is too large (max ${MAX_PDF_BYTES / 1024 / 1024}MB).`,
+      },
+      {
+        status: 413,
+      },
+    );
+  }
+
+  try {
+    const pdfBytes = new Uint8Array(await uploadedFile.arrayBuffer());
+    const extractedText = await extractPdfText(pdfBytes);
+    const importedResume = await mapResumeTextWithGemini(extractedText);
+    const result = buildImportedResumeDraft(importedResume);
+
+    return Response.json(result, {
+      status: 200,
+    });
+  } catch (error) {
+    return handleResumeImportError(error, "Unable to import the uploaded PDF.");
+  }
+}

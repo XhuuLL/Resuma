@@ -1,0 +1,121 @@
+"use client";
+
+import { useState } from "react";
+import { useFieldArray, useForm, useWatch } from "react-hook-form";
+import { toast } from "@/components/ui/toast";
+
+import { createLocalId } from "@/features/resume-editor/domain/create-local-id";
+import { createFormSchemaResolver } from "@/features/resume-editor/forms/schemas/create-form-schema-resolver";
+import { profileFormSchema } from "@/features/resume-editor/forms/schemas/profile-form-schema";
+import { loadImageFile, ProfilePhotoError } from "@/lib/image-to-data-url";
+import type { Profile, ResumeDraft } from "@/features/resume-editor/domain/schema";
+
+type CropState = {
+  open: boolean;
+  imageUrl: string | null;
+  image: HTMLImageElement | null;
+};
+
+const CLOSED_CROP: CropState = { open: false, imageUrl: null, image: null };
+
+/** Owns all profile-form state shared between the classic and canvas editors; each editor supplies its own shell + save lifecycle (auto-save vs submit). */
+export function useProfileForm(draft: ResumeDraft) {
+  const form = useForm<Profile>({
+    resolver: createFormSchemaResolver<Profile>(profileFormSchema),
+    defaultValues: draft.profile,
+    mode: "onBlur",
+    reValidateMode: "onChange",
+  });
+  const { control, setValue } = form;
+
+  const extraLinks = useFieldArray({
+    control,
+    name: "extraLinks",
+    keyName: "fieldKey",
+  });
+  const photoUrl = useWatch({ control, name: "photo" });
+
+  const [crop, setCrop] = useState<CropState>(CLOSED_CROP);
+  const [pendingDeleteLinkIndex, setPendingDeleteLinkIndex] = useState<
+    number | null
+  >(null);
+
+  function closeCrop() {
+    setCrop((current) => {
+      if (current.imageUrl) URL.revokeObjectURL(current.imageUrl);
+      return CLOSED_CROP;
+    });
+  }
+
+  async function handlePhotoFile(file: File | null | undefined) {
+    if (!file) return;
+    try {
+      const { objectUrl, image } = await loadImageFile(file);
+      setCrop({ open: true, imageUrl: objectUrl, image });
+    } catch (error) {
+      console.error("Reading the profile photo failed", error);
+      toast.add({
+        title:
+          error instanceof ProfilePhotoError
+            ? error.message
+            : "Could not read that image.",
+        type: "error",
+      });
+    }
+  }
+
+  // Programmatic picker (no persistent ref) — opens the OS file dialog and
+  // routes the chosen file into the crop flow.
+  function openPhotoPicker() {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/png,image/jpeg,image/webp,image/gif";
+    input.addEventListener("change", () => {
+      void handlePhotoFile(input.files?.[0]);
+    });
+    input.click();
+  }
+
+  function applyCrop(dataUrl: string) {
+    setValue("photo", dataUrl, { shouldDirty: true, shouldValidate: true });
+    closeCrop();
+  }
+
+  function removePhoto() {
+    setValue("photo", "", { shouldDirty: true, shouldValidate: true });
+  }
+
+  function addLink() {
+    extraLinks.append({ id: createLocalId("extra-link"), url: "" });
+  }
+
+  function confirmDeleteLink() {
+    if (pendingDeleteLinkIndex !== null)
+      extraLinks.remove(pendingDeleteLinkIndex);
+    setPendingDeleteLinkIndex(null);
+  }
+
+  return {
+    form,
+    formValues: draft.profile,
+    extraLinks,
+    photo: {
+      url: photoUrl,
+      openPicker: openPhotoPicker,
+      handleFile: handlePhotoFile,
+      remove: removePhoto,
+      crop,
+      applyCrop,
+      cancelCrop: closeCrop,
+    },
+    links: {
+      add: addLink,
+      pendingDeleteIndex: pendingDeleteLinkIndex,
+      requestDelete: setPendingDeleteLinkIndex,
+      confirmDelete: confirmDeleteLink,
+      cancelDelete: () => setPendingDeleteLinkIndex(null),
+    },
+  };
+}
+
+export type ProfileFormContext = ReturnType<typeof useProfileForm>;

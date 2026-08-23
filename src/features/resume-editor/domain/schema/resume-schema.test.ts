@@ -1,0 +1,242 @@
+import { describe, expect, it } from "vitest";
+
+import { createDefaultResumeDraft } from "@/features/resume-editor/domain/draft/create-default-resume-draft";
+import { parseResumeDraft, profileSchema } from "@/features/resume-editor/domain/schema";
+
+describe("resume schema", () => {
+  it("parses the default resume draft", () => {
+    const draft = createDefaultResumeDraft();
+
+    const parsed = parseResumeDraft(draft);
+
+    expect(parsed.schemaVersion).toBe(3);
+    expect(parsed.pdfPresentation.layoutId).toBe("aurora");
+    expect(parsed.pdfPresentation.fontScale).toBe("sm");
+    expect(parsed.profile.fullName).toBeTruthy();
+  });
+
+  it("fills default pdf presentation settings for older drafts", () => {
+    const draft = createDefaultResumeDraft();
+    const { pdfPresentation: omittedPdfPresentation, ...legacyDraft } = draft;
+    void omittedPdfPresentation;
+
+    const parsed = parseResumeDraft(legacyDraft);
+
+    expect(parsed.pdfPresentation).toEqual(draft.pdfPresentation);
+  });
+
+  it("resets a legacy nested-overrides presentation to defaults", () => {
+    const draft = createDefaultResumeDraft();
+
+    const parsed = parseResumeDraft({
+      ...draft,
+      pdfPresentation: {
+        themeId: "classic-serif",
+        overrides: {
+          fontSizePx: 14.8,
+          lineHeight: 1.9,
+          sectionSpacingPx: 34,
+          itemSpacingPx: 27,
+          accentTone: "emerald",
+          accentStrength: "strong",
+        },
+      },
+    });
+
+    expect(parsed.pdfPresentation).toEqual({
+      layoutId: "aurora",
+      fontFamilyId: "inter",
+      fontScale: "sm",
+      spacing: "standard",
+      lineHeight: "standard",
+      accent: "#a78bfa",
+      paperSize: "a4",
+      linkHighlight: true,
+    });
+  });
+
+  it("persists a chosen photoShape across a save/load round-trip", () => {
+    const draft = createDefaultResumeDraft();
+    draft.pdfPresentation = { ...draft.pdfPresentation, photoShape: "circle" };
+
+    const parsed = parseResumeDraft(JSON.parse(JSON.stringify(draft)));
+
+    expect(parsed.pdfPresentation.photoShape).toBe("circle");
+  });
+
+  it("persists plain links across a save/load round-trip", () => {
+    const draft = createDefaultResumeDraft();
+    draft.pdfPresentation = { ...draft.pdfPresentation, linkHighlight: false };
+
+    const parsed = parseResumeDraft(JSON.parse(JSON.stringify(draft)));
+
+    expect(parsed.pdfPresentation.linkHighlight).toBe(false);
+  });
+
+  it("drops an invalid photoShape instead of failing to load", () => {
+    const draft = createDefaultResumeDraft();
+
+    const parsed = parseResumeDraft({
+      ...draft,
+      pdfPresentation: { ...draft.pdfPresentation, photoShape: "oval" },
+    });
+
+    expect(parsed.pdfPresentation.photoShape).toBeUndefined();
+  });
+
+  it("rejects unsupported schema versions", () => {
+    const draft = createDefaultResumeDraft();
+
+    expect(() =>
+      parseResumeDraft({
+        ...draft,
+        schemaVersion: 99,
+      })
+    ).toThrow(/schemaVersion/i);
+  });
+
+  it("stores a not-yet-valid profile link leniently (format is advisory)", () => {
+    const draft = createDefaultResumeDraft();
+
+    const parsed = profileSchema.parse({
+      ...draft.profile,
+      extraLinks: [{ id: "link-1", url: "not-a-url" }],
+    });
+
+    expect(parsed.extraLinks[0].url).toBe("not-a-url");
+  });
+
+  it("allows blank profile fields in stored drafts", () => {
+    const draft = createDefaultResumeDraft();
+
+    expect(() =>
+      profileSchema.parse({
+        ...draft.profile,
+        fullName: "",
+        location: "",
+        phone: "",
+        email: "",
+        photo: "",
+        extraLinks: [
+          {
+            id: "link-1",
+            url: "",
+          },
+        ],
+      }),
+    ).not.toThrow();
+  });
+
+  it("stores a not-yet-valid email leniently (format is advisory)", () => {
+    const draft = createDefaultResumeDraft();
+
+    const parsed = profileSchema.parse({
+      ...draft.profile,
+      email: "not-an-email",
+    });
+
+    expect(parsed.email).toBe("not-an-email");
+  });
+
+  it("rejects legacy profile link objects that still include labels", () => {
+    const draft = createDefaultResumeDraft();
+
+    expect(() =>
+      parseResumeDraft({
+        ...draft,
+        profile: {
+          ...draft.profile,
+          extraLinks: [
+            {
+              id: "link-1",
+              label: "Portfolio",
+              url: "https://asaa.dev",
+            },
+          ],
+        },
+      })
+    ).toThrow();
+  });
+
+  it("allows blank summary content in stored drafts", () => {
+    const draft = createDefaultResumeDraft();
+
+    expect(() =>
+      parseResumeDraft({
+        ...draft,
+        sections: {
+          ...draft.sections,
+          summary: {
+            ...draft.sections.summary,
+            content: "",
+          },
+        },
+      })
+    ).not.toThrow();
+  });
+
+  it("stores a not-yet-valid project link leniently (format is advisory)", () => {
+    const draft = createDefaultResumeDraft();
+
+    const parsed = parseResumeDraft({
+      ...draft,
+      sections: {
+        ...draft.sections,
+        projects: {
+          ...draft.sections.projects,
+          items: [
+            { ...draft.sections.projects.items[0], projectLink: "not-a-url" },
+          ],
+        },
+      },
+    });
+
+    expect(parsed.sections.projects.items[0].projectLink).toBe("not-a-url");
+  });
+
+  it("stores a free-form month-year value leniently", () => {
+    const draft = createDefaultResumeDraft();
+
+    const parsed = parseResumeDraft({
+      ...draft,
+      sections: {
+        ...draft.sections,
+        workExperience: {
+          ...draft.sections.workExperience,
+          items: [
+            { ...draft.sections.workExperience.items[0], startDate: "2024-01" },
+          ],
+        },
+      },
+    });
+
+    expect(parsed.sections.workExperience.items[0].startDate).toBe("2024-01");
+  });
+
+  it("keeps default visible sections focused on the core resume flow", () => {
+    const draft = createDefaultResumeDraft();
+
+    expect(draft.sections.summary.visible).toBe(true);
+    expect(draft.sections.workExperience.visible).toBe(true);
+    expect(draft.sections.skills.visible).toBe(true);
+    expect(draft.sections.projects.visible).toBe(true);
+    expect(draft.sections.education.visible).toBe(true);
+    expect(draft.sections.publications.visible).toBe(false);
+    expect(draft.sections.references.visible).toBe(true);
+  });
+
+  it("seeds every collection section with one empty item", () => {
+    const draft = createDefaultResumeDraft();
+
+    expect(draft.sections.workExperience.items).toHaveLength(1);
+    expect(draft.sections.skills.items).toHaveLength(1);
+    expect(draft.sections.projects.items).toHaveLength(1);
+    expect(draft.sections.education.items).toHaveLength(1);
+    expect(draft.sections.publications.items).toHaveLength(1);
+    expect(draft.sections.certifications.items).toHaveLength(1);
+    expect(draft.sections.awards.items).toHaveLength(1);
+    expect(draft.sections.languages.items).toHaveLength(1);
+    expect(draft.sections.references.items).toHaveLength(1);
+    expect(draft.sections.organizationVolunteering.items).toHaveLength(1);
+  });
+});

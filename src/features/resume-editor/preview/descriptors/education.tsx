@@ -1,0 +1,17 @@
+import { richTextHasContent } from "@/features/resume-editor/preview/rich-text-utils";
+
+import type { SectionDescriptor } from "./types";
+
+export const educationDescriptor: SectionDescriptor<"education"> = {
+  key: "education",
+  hasContent: (item) =>
+    Boolean(
+      item.name ||
+        item.location ||
+        item.startDate ||
+        item.endDate ||
+        item.degree ||
+        item.gpa ||
+        richTextHasContent(item.description),
+    ),
+};
