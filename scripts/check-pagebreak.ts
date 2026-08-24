@@ -32,7 +32,6 @@ export function longDraft(layoutId: PdfLayoutId, workCount: number): ResumeDraft
       ...s.organizationVolunteering,
       visible: false,
     };
-    s.awards = { ...s.awards, visible: false };
     s.workExperience = {
       ...s.workExperience,
       items: [s.workExperience.items[0]],

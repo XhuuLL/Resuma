@@ -12,7 +12,7 @@ function createDefaultWorkExperienceItem() {
     position: "Staf Departemen Operasional",
     location: "Remote / WFH",
     startDate: "September 2025",
-    endDate: "Saat ini",
+    endDate: "November 2025",
     description:
       "<ul><li>Memantau dan mengelola operasional harian secara remote untuk memastikan kelancaran sistem perusahaan.</li><li>Berkolaborasi dengan tim lintas departemen untuk menyelesaikan masalah teknis operasional harian.</li><li>Menyusun laporan kinerja dan mendokumentasikan prosedur standar operasional (SOP).</li></ul>",
   };
