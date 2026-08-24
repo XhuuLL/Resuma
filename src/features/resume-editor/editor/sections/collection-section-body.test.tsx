@@ -44,11 +44,11 @@ describe("CollectionSectionBody autosave", () => {
       />,
     );
 
-    await user.click(screen.getByRole("button", { name: /add experience/i }));
+    await user.click(screen.getByRole("button", { name: /tambah pengalaman/i }));
     expect(screen.getAllByLabelText(/company name/i)).toHaveLength(2);
 
     await user.type(screen.getAllByLabelText(/company name/i)[1], "Doomed");
-    await user.click(screen.getAllByRole("button", { name: /remove experience/i })[1]);
+    await user.click(screen.getAllByRole("button", { name: /remove pengalaman/i })[1]);
     await user.click(screen.getByRole("button", { name: /^delete$/i }));
 
     await act(() => new Promise((r) => setTimeout(r, 700)));
@@ -71,7 +71,7 @@ describe("CollectionSectionBody autosave", () => {
       />,
     );
 
-    await user.click(screen.getByRole("button", { name: /add experience/i }));
+    await user.click(screen.getByRole("button", { name: /tambah pengalaman/i }));
     expect(screen.getAllByLabelText(/company name/i)).toHaveLength(2);
 
     // KeyboardSensor lifts on Space from the handle.

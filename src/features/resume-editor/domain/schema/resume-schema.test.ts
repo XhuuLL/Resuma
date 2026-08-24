@@ -221,8 +221,7 @@ describe("resume schema", () => {
     expect(draft.sections.skills.visible).toBe(true);
     expect(draft.sections.projects.visible).toBe(true);
     expect(draft.sections.education.visible).toBe(true);
-    expect(draft.sections.publications.visible).toBe(false);
-    expect(draft.sections.references.visible).toBe(true);
+    expect(draft.sections.references.visible).toBe(false);
   });
 
   it("seeds every collection section with one empty item", () => {
@@ -232,9 +231,7 @@ describe("resume schema", () => {
     expect(draft.sections.skills.items).toHaveLength(1);
     expect(draft.sections.projects.items).toHaveLength(1);
     expect(draft.sections.education.items).toHaveLength(1);
-    expect(draft.sections.publications.items).toHaveLength(1);
     expect(draft.sections.certifications.items).toHaveLength(1);
-    expect(draft.sections.awards.items).toHaveLength(1);
     expect(draft.sections.languages.items).toHaveLength(1);
     expect(draft.sections.references.items).toHaveLength(1);
     expect(draft.sections.organizationVolunteering.items).toHaveLength(1);

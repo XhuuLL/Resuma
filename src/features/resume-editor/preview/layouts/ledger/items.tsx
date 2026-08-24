@@ -96,21 +96,6 @@ function ProjectsItem({ item }: { item: SectionItem<"projects"> }) {
   );
 }
 
-function PublicationsItem({ item }: { item: SectionItem<"publications"> }) {
-  return (
-    <div className="item">
-      <TitleRow
-        title={
-          <PreviewLinkedTitle title={item.title} link={item.publicationUrl} />
-        }
-        side={item.publisher}
-      />
-      <ItemDate>{item.publicationDate}</ItemDate>
-      <PreviewRichTextBlock content={item.description} />
-    </div>
-  );
-}
-
 function CertificationsItem({ item }: { item: SectionItem<"certifications"> }) {
   return (
     <div className="item">
@@ -133,16 +118,6 @@ function CertificationsItem({ item }: { item: SectionItem<"certifications"> }) {
   );
 }
 
-function AwardsItem({ item }: { item: SectionItem<"awards"> }) {
-  return (
-    <div className="item">
-      <TitleRow title={item.title} side={item.issuer} />
-      <ItemDate>{item.issuedDate}</ItemDate>
-      <PreviewRichTextBlock content={item.description} />
-    </div>
-  );
-}
-
 function ReferencesItem({ item }: { item: SectionItem<"references"> }) {
   return (
     <div className="item">
@@ -160,9 +135,7 @@ export const ledgerItemViews: LayoutSectionItemMap = {
   skills: RailSkillsItem,
   projects: ProjectsItem,
   education: EducationItem,
-  publications: PublicationsItem,
   certifications: CertificationsItem,
-  awards: AwardsItem,
   languages: RailLanguagesItem,
   references: ReferencesItem,
   organizationVolunteering: OrganizationVolunteeringItem,

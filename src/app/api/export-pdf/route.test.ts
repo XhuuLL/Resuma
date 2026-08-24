@@ -35,7 +35,7 @@ describe("POST /api/export-pdf", () => {
     expect(response.status).toBe(200);
     expect(response.headers.get("content-type")).toBe("application/pdf");
     expect(response.headers.get("content-disposition")).toContain(
-      "attachment; filename=\"resume-dimas-angkasa-"
+      "attachment; filename=\"resume-akhmad-fatkhul-arifin-"
     );
     expect(generateResumePdf).toHaveBeenCalledWith({
       draft,

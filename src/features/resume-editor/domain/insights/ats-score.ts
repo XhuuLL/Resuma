@@ -151,8 +151,6 @@ function buildContext(
     ...shown(sections.workExperience, (item) => item.description),
     ...shown(sections.projects, (item) => item.description),
     ...shown(sections.education, (item) => item.description),
-    ...shown(sections.publications, (item) => item.description),
-    ...shown(sections.awards, (item) => item.description),
     ...shown(sections.organizationVolunteering, (item) => item.description),
   ].filter(Boolean);
 
@@ -186,7 +184,6 @@ function buildContext(
       ...shown(sections.projects, (item) => item.description),
       ...shown(sections.education, (item) => item.description),
       ...shown(sections.organizationVolunteering, (item) => item.description),
-      ...shown(sections.awards, (item) => item.description),
     ].flatMap((html) => extractBullets(html)),
     visibleItemCount: Object.values(sections).reduce(
       (total, section) =>

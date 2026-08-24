@@ -78,7 +78,7 @@ describe("extractResumeText", () => {
 
     const text = extractResumeText(draft);
 
-    expect(text).toContain("Lead Frontend Engineer");
-    expect(text).toContain("Nusantara Commerce");
+    expect(text).toContain("Staf Departemen Operasional");
+    expect(text).toContain("PT Alter Teknologi");
   });
 });

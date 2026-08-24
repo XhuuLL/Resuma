@@ -1,12 +1,10 @@
 import type { LayoutSectionItemMap } from "@/features/resume-editor/preview/layout-types";
 import {
-  AwardsItem,
   CertificationsItem,
   EducationItem,
   LanguagesItem,
   OrganizationVolunteeringItem,
   ProjectsItem,
-  PublicationsItem,
   ReferencesItem,
   SkillsItem,
   WorkExperienceItem,
@@ -19,9 +17,7 @@ export const defaultItemViews: LayoutSectionItemMap = {
   skills: SkillsItem,
   projects: ProjectsItem,
   education: EducationItem,
-  publications: PublicationsItem,
   certifications: CertificationsItem,
-  awards: AwardsItem,
   languages: LanguagesItem,
   references: ReferencesItem,
   organizationVolunteering: OrganizationVolunteeringItem,

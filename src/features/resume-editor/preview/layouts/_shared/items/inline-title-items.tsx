@@ -64,18 +64,6 @@ function ProjectsItem({ item }: { item: SectionItem<"projects"> }) {
   );
 }
 
-function PublicationsItem({ item }: { item: SectionItem<"publications"> }) {
-  return (
-    <div className="item">
-      <h3 className="item-title">
-        <PreviewLinkedTitle title={item.title} link={item.publicationUrl} />
-      </h3>
-      <ItemDate>{commaJoin([item.publisher, item.publicationDate])}</ItemDate>
-      <PreviewRichTextBlock content={item.description} />
-    </div>
-  );
-}
-
 function CertificationsItem({ item }: { item: SectionItem<"certifications"> }) {
   return (
     <div className="item">
@@ -91,16 +79,6 @@ function CertificationsItem({ item }: { item: SectionItem<"certifications"> }) {
           item.credentialId ? `ID ${item.credentialId}` : undefined,
         ])}
       </ItemDate>
-    </div>
-  );
-}
-
-function AwardsItem({ item }: { item: SectionItem<"awards"> }) {
-  return (
-    <div className="item">
-      <InlineTitle parts={[item.title, item.issuer]} />
-      <ItemDate>{item.issuedDate}</ItemDate>
-      <PreviewRichTextBlock content={item.description} />
     </div>
   );
 }
@@ -126,9 +104,7 @@ export const inlineTitleItemViews: LayoutSectionItemMap = {
   skills: SkillsItem,
   projects: ProjectsItem,
   education: EducationItem,
-  publications: PublicationsItem,
   certifications: CertificationsItem,
-  awards: AwardsItem,
   languages: RailLanguagesItem,
   references: ReferencesItem,
   organizationVolunteering: OrganizationVolunteeringItem,

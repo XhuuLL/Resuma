@@ -11,8 +11,6 @@ import { ResumeDocument } from "@/features/resume-editor/preview/resume-document
 function buildFixtureDraft(layoutId: ResumeDraft["pdfPresentation"]["layoutId"]): ResumeDraft {
   const draft = createDefaultResumeDraft();
   draft.updatedAt = "2026-01-01T00:00:00.000Z"; // deterministic, not rendered
-  draft.sections.publications.visible = true;
-  draft.sections.awards.visible = true;
   draft.pdfPresentation = { ...draft.pdfPresentation, layoutId };
   return draft;
 }

@@ -75,18 +75,7 @@ export const importedResumeSchema = z
       )
       .optional()
       .default([]),
-    publications: z
-      .array(
-        z.object({
-          title: importedText,
-          publisher: importedText,
-          publicationUrl: importedText,
-          publicationDate: importedText,
-          highlights: importedStringArray,
-        }),
-      )
-      .optional()
-      .default([]),
+
     certifications: z
       .array(
         z.object({
@@ -99,17 +88,7 @@ export const importedResumeSchema = z
       )
       .optional()
       .default([]),
-    awards: z
-      .array(
-        z.object({
-          title: importedText,
-          issuer: importedText,
-          issuedDate: importedText,
-          highlights: importedStringArray,
-        }),
-      )
-      .optional()
-      .default([]),
+
     languages: z
       .array(
         z.object({

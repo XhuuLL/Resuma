@@ -8,26 +8,26 @@ function createTimestamp() {
 function createDefaultWorkExperienceItem() {
   return {
     id: "default-work-experience-1",
-    companyName: "Nusantara Commerce",
-    position: "Lead Frontend Engineer",
-    location: "Jakarta, Indonesia",
-    startDate: "Mar 2022",
-    endDate: "current",
+    companyName: "PT Alter Teknologi",
+    position: "Staf Departemen Operasional",
+    location: "Remote / WFH",
+    startDate: "September 2025",
+    endDate: "Saat ini",
     description:
-      "<ul><li>Led the migration of the customer storefront from legacy React pages to Next.js App Router, improving Core Web Vitals and reducing average page load time by 38%.</li><li>Partnered with product and design teams to launch a reusable component library used by 6 squads, cutting feature delivery time by 25%.</li><li>Mentored 4 engineers through architecture reviews, testing standards, and rollout plans for high-traffic releases.</li></ul>",
+      "<ul><li>Memantau dan mengelola operasional harian secara remote untuk memastikan kelancaran sistem perusahaan.</li><li>Berkolaborasi dengan tim lintas departemen untuk menyelesaikan masalah teknis operasional harian.</li><li>Menyusun laporan kinerja dan mendokumentasikan prosedur standar operasional (SOP).</li></ul>",
   };
 }
 
 function createDefaultSkillCategoryItem() {
   return {
     id: "default-skill-category-1",
-    categoryName: "Frontend Engineering",
+    categoryName: "Frontend Development Ceritanee",
     skills: [
       "React",
       "Next.js",
       "TypeScript",
       "Tailwind CSS",
-      "Design Systems",
+      "Desain Sistem",
       "Vitest",
       "Playwright",
     ],
@@ -37,93 +37,69 @@ function createDefaultSkillCategoryItem() {
 function createDefaultProjectItem() {
   return {
     id: "default-project-1",
-    projectName: "Seller Analytics Dashboard",
+    projectName: "Portal Pelayanan Desa Luwunggede",
     projectLink:
-      "https://portfolio.example.dev/projects/seller-analytics-dashboard",
-    startDate: "Jan 2024",
-    endDate: "Oct 2024",
+      "https://inventaris-luwunggede.id/",
+    startDate: "Juli 2026",
+    endDate: "Agustus 2026",
     description:
-      "<ul><li>Built a role-based analytics dashboard for marketplace sellers with interactive charts, exports, and saved filters.</li><li>Implemented data fetching and cache strategies that reduced dashboard query time from 5.2s to 1.9s on high-volume accounts.</li><li>Delivered an accessible UI and keyboard-first navigation, passing internal accessibility QA for core flows.</li></ul>",
+      "<ul>Proker Individu KKN Jierrrs.></ul>",
   };
 }
 
 function createDefaultEducationItem() {
   return {
     id: "default-education-1",
-    name: "Institut Teknologi Bandung",
-    location: "Bandung, Indonesia",
-    startDate: "Aug 2015",
-    endDate: "May 2019",
-    degree: "B.S. in Informatics",
-    gpa: "3.78 / 4.00",
+    name: "Universitas Muhadi Setiabudi",
+    location: "Brebes, Indonesia",
+    startDate: "September 2023",
+    endDate: "September 2027",
+    degree: "S1 Teknik Informatika",
+    gpa: "3.85 / 4.00",
     description:
-      "<ul><li>Focused on software engineering, human-computer interaction, and distributed systems.</li><li>Capstone project: designed a web-based scheduling platform used by 3 departments during pilot adoption.</li></ul>",
-  };
-}
-
-function createDefaultPublicationItem() {
-  return {
-    id: "default-publication-1",
-    title: "Practical Frontend Performance for Indonesian E-Commerce",
-    publisher: "Tech in Asia Community",
-    publicationUrl:
-      "https://medium.com/@dimasangkasa/frontend-performance-ecommerce",
-    publicationDate: "Sep 2024",
-    description:
-      "<ul><li>Wrote a practical guide on bundle optimization, image strategy, and rendering patterns based on production incidents and measurable outcomes.</li></ul>",
+      "<ul><li>Fokus pada pengembangan Frontend dan Machine Learning Ceritanee.</li></ul>",
   };
 }
 
 function createDefaultCertificationItem() {
   return {
     id: "default-certification-1",
-    certificationName: "AWS Certified Developer - Associate",
-    issuingOrganization: "Amazon Web Services",
-    issuedDate: "Jul 2024",
+    certificationName: "Belajar Dasar Cloud dan Gen AI di AWS",
+    issuingOrganization: "Dicoding",
+    issuedDate: "Januari 2026",
     certificationLink:
-      "https://www.credly.com/badges/12345678-90ab-cdef-1234-567890abcdef",
-    credentialId: "AWS-DEV-2024-5521",
-  };
-}
-
-function createDefaultAwardItem() {
-  return {
-    id: "default-award-1",
-    title: "Product Impact Award",
-    issuer: "Nusantara Commerce",
-    issuedDate: "Dec 2024",
-    description:
-      "<ul><li>Recognized for leading checkout performance improvements that increased conversion by 6.4% during the year-end campaign period.</li></ul>",
+      "https://www.dicoding.com/certificates/MEPJ279GWP3V",
+    credentialId: "MEPJ279GWP3V",
   };
 }
 
 function createDefaultLanguageItem() {
   return {
     id: "default-language-1",
-    language: "English",
-    proficiency: "Professional working proficiency",
+    language: "Bahasa Jawaa",
+    proficiency: "Fassih men bahasa jawaa coyy",
   };
 }
 
 function createDefaultReferenceItem() {
   return {
     id: "default-reference-1",
-    name: "Pertiwi Putri",
-    background: "Engineering Director, Nusantara Commerce",
-    contactDetails: "pertiwi.putri@nusantaracommerce.co.id · +62 812-4455-6677",
+    name: "Seluruh Dosen TI Ceritanee",
+    background: "Dosen TI Ceritanee, Universitas Muhadi Setiabudi",
+    contactDetails: "dosen.informatika@umus.ac.id · +62 811-2233-4455",
   };
 }
 
 function createDefaultOrganizationItem() {
   return {
     id: "default-organization-1",
-    organizationName: "Indonesia React Community",
-    position: "Volunteer Mentor",
-    location: "Jakarta, Indonesia",
-    startDate: "Feb 2021",
-    endDate: "current",
+    organizationName: "BEM KM FT",
+    position: "PSDM",
+    location: "Brebes, Indonesia",
+    startDate: "Oktober 2024",
+    endDate: "Oktober 2025",
     description:
-      "<ul><li>Mentor junior developers through monthly frontend clinics covering React fundamentals, testing, and portfolio reviews.</li><li>Co-organized 8 meetups with hands-on workshops attended by more than 400 participants.</li></ul>",
+      "<ul><li>Meluan Tok Sebagai Anggota Sing Kadang kiding aktif ee.</ul>",
   };
 }
 
@@ -133,24 +109,24 @@ export function createDefaultResumeDraft(): ResumeDraft {
     updatedAt: createTimestamp(),
     pdfPresentation: createDefaultPdfPresentation(),
     profile: {
-      fullName: "Dimas Angkasa",
-      headline: "Software Engineer",
-      location: "Jakarta, Indonesia",
-      phone: "+62 812-3344-5566",
-      email: "dimas.angkasa@proton.me",
-      photo: "https://asaa.dev/avatar.jpeg",
+      fullName: "Akhmad Fatkhul Arifin",
+      headline: "Web Development Ceritanee",
+      location: "Brebes, Indonesia",
+      phone: "+62 812-3344-5568",
+      email: "fatkhuldisini@gmail.com",
+      photo: "https://github.com/XhuuLL.png",
       extraLinks: [
         {
           id: "profile-link-linkedin",
-          url: "https://www.linkedin.com/in/dimasangkasa",
+          url: "https://linkedin.com/in/akhmad-fatkhul-arifin-632a383a6",
         },
         {
           id: "profile-link-github",
-          url: "https://github.com/angkasa27",
+          url: "https://github.com/XhuuLL",
         },
         {
           id: "profile-link-portfolio",
-          url: "https://asaa.dev",
+          url: "https://xhuull.vercel.app",
         },
       ],
     },
@@ -159,7 +135,7 @@ export function createDefaultResumeDraft(): ResumeDraft {
         visible: true,
         order: 0,
         content:
-          "<p>Software Engineer with 5+ years of experience specializing in frontend development for enterprise web applications. Skilled in building responsive, high-quality interfaces with modern frameworks, improving performance, and creating maintainable component-based systems. Comfortable working beyond the frontend when needed, including API integration, system design, and deployment, to deliver reliable end-to-end products.</p>",
+          "<p>Saya adalah seorang mahasiswa di Universitas Muhadi Setiabudi dengan minat yang kuat dalam pengembangan software, khususnya di bidang low-level, mobile, website dan desktop. Selain itu, saya memiliki pengalaman dalam pengembangan website dan sistem informasi, yang saya dapatkan dari berbagai proyek. Saya juga rutin berkontribusi di GitHub untuk mendokumentasikan dan membagikan proyek-proyek yang saya kerjakan. Sebagai pengguna Windows And Linux, saya selalu bersemangat untuk terus belajar dan mendalami teknologi baru.</p>",
       },
       workExperience: {
         visible: true,
@@ -181,20 +157,10 @@ export function createDefaultResumeDraft(): ResumeDraft {
         order: 4,
         items: [createDefaultEducationItem()],
       },
-      publications: {
-        visible: false,
-        order: 5,
-        items: [createDefaultPublicationItem()],
-      },
       certifications: {
         visible: true,
         order: 6,
         items: [createDefaultCertificationItem()],
-      },
-      awards: {
-        visible: false,
-        order: 7,
-        items: [createDefaultAwardItem()],
       },
       languages: {
         visible: true,
@@ -202,12 +168,12 @@ export function createDefaultResumeDraft(): ResumeDraft {
         items: [createDefaultLanguageItem()],
       },
       references: {
-        visible: true,
+        visible: false,
         order: 9,
         items: [createDefaultReferenceItem()],
       },
       organizationVolunteering: {
-        visible: true,
+        visible: false,
         order: 10,
         items: [createDefaultOrganizationItem()],
       },

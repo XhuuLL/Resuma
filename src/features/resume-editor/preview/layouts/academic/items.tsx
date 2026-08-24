@@ -68,27 +68,6 @@ function EducationItem({ item }: { item: SectionItem<"education"> }) {
   );
 }
 
-function PublicationsItem({ item }: { item: SectionItem<"publications"> }) {
-  // Same shape as every other academic entry; a run-on bibliography line read
-  // as one justified paragraph with a real conference name.
-  return (
-    <div className="item">
-      <div className="item-header">
-        <div className="item-header-main">
-          <h3 className="item-title">
-            <PreviewLinkedTitle title={item.title} link={item.publicationUrl} />
-          </h3>
-          {item.publisher ? (
-            <em className="meta italic">{item.publisher}</em>
-          ) : null}
-        </div>
-        <ItemDate>{item.publicationDate}</ItemDate>
-      </div>
-      <PreviewRichTextBlock content={item.description} />
-    </div>
-  );
-}
-
 function CertificationsItem({
   item,
 }: {
@@ -113,21 +92,6 @@ function CertificationsItem({
         </div>
         <ItemDate>{item.issuedDate}</ItemDate>
       </div>
-    </div>
-  );
-}
-
-function AwardsItem({ item }: { item: SectionItem<"awards"> }) {
-  return (
-    <div className="item">
-      <div className="item-header">
-        <div className="item-header-main">
-          <h3 className="item-title">{item.title}</h3>
-          {item.issuer ? <em className="meta italic">{item.issuer}</em> : null}
-        </div>
-        <ItemDate>{item.issuedDate}</ItemDate>
-      </div>
-      <PreviewRichTextBlock content={item.description} />
     </div>
   );
 }
@@ -182,9 +146,7 @@ export const academicItemViews: LayoutSectionItemMap = {
   skills: SkillsItem,
   projects: ProjectsItem,
   education: EducationItem,
-  publications: PublicationsItem,
   certifications: CertificationsItem,
-  awards: AwardsItem,
   languages: LanguagesItem,
   references: ReferencesItem,
   organizationVolunteering: OrganizationVolunteeringItem,

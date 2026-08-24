@@ -62,15 +62,6 @@ export const educationItemSchema = z.object({
   description: richTextField(),
 });
 
-export const publicationItemSchema = z.object({
-  id: requiredText("Publication ID"),
-  title: textField(),
-  publisher: textField(),
-  publicationUrl: textField(),
-  publicationDate: textField(),
-  description: richTextField(),
-});
-
 export const certificationItemSchema = z.object({
   id: requiredText("Certification ID"),
   certificationName: textField(),
@@ -78,14 +69,6 @@ export const certificationItemSchema = z.object({
   issuedDate: textField(),
   certificationLink: textField(),
   credentialId: optionalText(),
-});
-
-export const awardItemSchema = z.object({
-  id: requiredText("Award ID"),
-  title: textField(),
-  issuer: textField(),
-  issuedDate: textField(),
-  description: richTextField(),
 });
 
 export const languageItemSchema = z.object({
@@ -130,15 +113,10 @@ const skillsSectionSchema = createCollectionSectionSchema(
 const projectsSectionSchema = createCollectionSectionSchema(projectItemSchema);
 const educationSectionSchema =
   createCollectionSectionSchema(educationItemSchema);
-const publicationsSectionSchema = createCollectionSectionSchema(
-  publicationItemSchema,
-);
 const certificationsSectionSchema = createCollectionSectionSchema(
   certificationItemSchema,
 );
-const awardsSectionSchema = createCollectionSectionSchema(awardItemSchema);
-const languagesSectionSchema =
-  createCollectionSectionSchema(languageItemSchema);
+const languagesSectionSchema = createCollectionSectionSchema(languageItemSchema);
 const referencesSectionSchema =
   createCollectionSectionSchema(referenceItemSchema);
 const organizationVolunteeringSectionSchema = createCollectionSectionSchema(
@@ -151,9 +129,7 @@ export const sectionsSchema = z.object({
   skills: skillsSectionSchema,
   projects: projectsSectionSchema,
   education: educationSectionSchema,
-  publications: publicationsSectionSchema,
   certifications: certificationsSectionSchema,
-  awards: awardsSectionSchema,
   languages: languagesSectionSchema,
   references: referencesSectionSchema,
   organizationVolunteering: organizationVolunteeringSectionSchema,
@@ -163,9 +139,7 @@ export type WorkExperienceItem = z.infer<typeof workExperienceItemSchema>;
 export type SkillCategoryItem = z.infer<typeof skillCategoryItemSchema>;
 export type ProjectItem = z.infer<typeof projectItemSchema>;
 export type EducationItem = z.infer<typeof educationItemSchema>;
-export type PublicationItem = z.infer<typeof publicationItemSchema>;
 export type CertificationItem = z.infer<typeof certificationItemSchema>;
-export type AwardItem = z.infer<typeof awardItemSchema>;
 export type LanguageItem = z.infer<typeof languageItemSchema>;
 export type ReferenceItem = z.infer<typeof referenceItemSchema>;
 export type OrganizationItem = z.infer<typeof organizationItemSchema>;

@@ -73,22 +73,12 @@ export function extractResumeText(draft: ResumeDraft): string {
     description: (item) => item.description,
   });
   collectSectionText(parts, {
-    items: sections.publications.items,
-    fields: (item) => [item.title, item.publisher],
-    description: (item) => item.description,
-  });
-  collectSectionText(parts, {
     items: sections.certifications.items,
     fields: (item) => [
       item.certificationName,
       item.issuingOrganization,
       item.credentialId ?? "",
     ],
-  });
-  collectSectionText(parts, {
-    items: sections.awards.items,
-    fields: (item) => [item.title, item.issuer],
-    description: (item) => item.description,
   });
   collectSectionText(parts, {
     items: sections.languages.items,

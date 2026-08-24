@@ -37,11 +37,11 @@ describe("getOrderedSectionKeys", () => {
 describe("getOrderedVisibleSectionKeys", () => {
   it("excludes invisible sections", () => {
     const draft = createDefaultResumeDraft();
-    draft.sections.publications.visible = false;
+    draft.sections.references.visible = false;
 
     const keys = getOrderedVisibleSectionKeys(draft.sections);
 
-    expect(keys).not.toContain("publications");
+    expect(keys).not.toContain("references");
     expect(keys).toContain("summary");
     expect(keys).toContain("workExperience");
   });
@@ -52,7 +52,7 @@ describe("sectionLabels", () => {
     for (const key of collectionSectionKeys) {
       expect(sectionLabels[key]).toBeDefined();
     }
-    expect(sectionLabels.summary).toBe("Summary");
+    expect(sectionLabels.summary).toBe("Ringkasan");
   });
 });
 

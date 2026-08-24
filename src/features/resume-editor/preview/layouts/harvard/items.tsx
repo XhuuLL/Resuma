@@ -119,20 +119,6 @@ function ProjectsItem({ item }: { item: SectionItem<"projects"> }) {
   );
 }
 
-function PublicationsItem({ item }: { item: SectionItem<"publications"> }) {
-  return (
-    <div className="item">
-      <EntryRow
-        heading
-        lead={<PreviewLinkedTitle title={item.title} link={item.publicationUrl} />}
-        side={item.publicationDate}
-      />
-      <EntryRow lead={item.publisher} />
-      <PreviewRichTextBlock content={item.description} />
-    </div>
-  );
-}
-
 function CertificationsItem({ item }: { item: SectionItem<"certifications"> }) {
   return (
     <div className="item">
@@ -150,16 +136,6 @@ function CertificationsItem({ item }: { item: SectionItem<"certifications"> }) {
         lead={item.issuingOrganization}
         side={item.credentialId ? `ID ${item.credentialId}` : undefined}
       />
-    </div>
-  );
-}
-
-function AwardsItem({ item }: { item: SectionItem<"awards"> }) {
-  return (
-    <div className="item">
-      <EntryRow heading lead={item.title} side={item.issuedDate} />
-      <EntryRow lead={item.issuer} />
-      <PreviewRichTextBlock content={item.description} />
     </div>
   );
 }
@@ -190,9 +166,7 @@ export const harvardItemViews: LayoutSectionItemMap = {
   skills: SkillsItem,
   projects: ProjectsItem,
   education: EducationItem,
-  publications: PublicationsItem,
   certifications: CertificationsItem,
-  awards: AwardsItem,
   languages: LanguagesItem,
   references: ReferencesItem,
   organizationVolunteering: OrganizationVolunteeringItem,

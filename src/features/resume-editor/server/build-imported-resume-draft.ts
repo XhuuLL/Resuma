@@ -7,13 +7,11 @@ import {
 } from "@/features/resume-editor/domain/sections/section-metadata";
 import {
   parseResumeDraft,
-  type AwardItem,
   type CertificationItem,
   type EducationItem,
   type LanguageItem,
   type OrganizationItem,
   type ProjectItem,
-  type PublicationItem,
   type ReferenceItem,
   type ResumeDraft,
   type SkillCategoryItem,
@@ -361,35 +359,7 @@ function buildEducationSection(
     : buildHiddenSection("education");
 }
 
-function mapPublicationItem(
-  item: ImportedResume["publications"][number],
-  warnings: string[],
-): PublicationItem {
-  return {
-    id: createLocalId("publication"),
-    title: cleanText(item.title),
-    publisher: cleanText(item.publisher),
-    publicationUrl: normalizeUrl(item.publicationUrl),
-    publicationDate: normalizeDateValue(
-      item.publicationDate,
-      `Publication date for ${item.title || "an entry"}`,
-      warnings,
-    ),
-    description: toRichTextBullets(item.highlights),
-  };
-}
 
-function buildPublicationsSection(
-  items: ImportedResume["publications"],
-  warnings: string[],
-): ResumeDraft["sections"]["publications"] {
-  return items.length
-    ? buildCollectionSection(
-        "publications",
-        items.map((item) => mapPublicationItem(item, warnings)),
-      )
-    : buildHiddenSection("publications");
-}
 
 function mapCertificationItem(
   item: ImportedResume["certifications"][number],
@@ -421,34 +391,7 @@ function buildCertificationsSection(
     : buildHiddenSection("certifications");
 }
 
-function mapAwardItem(
-  item: ImportedResume["awards"][number],
-  warnings: string[],
-): AwardItem {
-  return {
-    id: createLocalId("award"),
-    title: cleanText(item.title),
-    issuer: cleanText(item.issuer),
-    issuedDate: normalizeDateValue(
-      item.issuedDate,
-      `Award date for ${item.title || "an entry"}`,
-      warnings,
-    ),
-    description: toRichTextBullets(item.highlights),
-  };
-}
 
-function buildAwardsSection(
-  items: ImportedResume["awards"],
-  warnings: string[],
-): ResumeDraft["sections"]["awards"] {
-  return items.length
-    ? buildCollectionSection(
-        "awards",
-        items.map((item) => mapAwardItem(item, warnings)),
-      )
-    : buildHiddenSection("awards");
-}
 
 function mapLanguageItem(item: ImportedResume["languages"][number]): LanguageItem {
   const proficiency = cleanText(item.proficiency);
@@ -537,15 +480,10 @@ function buildSections(
     skills: buildSkillsSection(importedResume.skills),
     projects: buildProjectsSection(importedResume.projects, warnings),
     education: buildEducationSection(importedResume.education, warnings),
-    publications: buildPublicationsSection(
-      importedResume.publications,
-      warnings,
-    ),
     certifications: buildCertificationsSection(
       importedResume.certifications,
       warnings,
     ),
-    awards: buildAwardsSection(importedResume.awards, warnings),
     languages: buildLanguagesSection(importedResume.languages),
     references: buildReferencesSection(importedResume.references),
     organizationVolunteering: buildOrganizationVolunteeringSection(

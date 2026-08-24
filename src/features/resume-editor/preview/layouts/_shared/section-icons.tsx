@@ -1,6 +1,4 @@
 import {
-  AwardIcon,
-  BookOpenIcon,
   BriefcaseIcon,
   FolderGitIcon,
   GraduationCapIcon,
@@ -12,6 +10,7 @@ import {
   UserRoundCheckIcon,
   type LucideIcon,
 } from "lucide-react";
+
 import type { ReactNode } from "react";
 
 import type { CollectionSectionKey } from "@/features/resume-editor/domain/sections/section-metadata";
@@ -25,9 +24,7 @@ const ICON_BY_SECTION: Record<
   skills: SparklesIcon,
   projects: FolderGitIcon,
   education: GraduationCapIcon,
-  publications: BookOpenIcon,
   certifications: ScrollTextIcon,
-  awards: AwardIcon,
   languages: LanguagesIcon,
   references: QuoteIcon,
   organizationVolunteering: HandHeartIcon,

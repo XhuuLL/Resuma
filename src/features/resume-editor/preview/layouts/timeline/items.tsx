@@ -88,19 +88,6 @@ function EducationItem({ item }: { item: SectionItem<"education"> }) {
   );
 }
 
-function PublicationsItem({ item }: { item: SectionItem<"publications"> }) {
-  return (
-    <TimelineItem
-      title={
-        <PreviewLinkedTitle title={item.title} link={item.publicationUrl} />
-      }
-      meta={item.publisher || undefined}
-      date={item.publicationDate}
-      description={item.description}
-    />
-  );
-}
-
 function CertificationsItem({ item }: { item: SectionItem<"certifications"> }) {
   return (
     <TimelineItem
@@ -115,17 +102,6 @@ function CertificationsItem({ item }: { item: SectionItem<"certifications"> }) {
         item.credentialId ? `ID ${item.credentialId}` : undefined,
       ])}
       date={item.issuedDate}
-    />
-  );
-}
-
-function AwardsItem({ item }: { item: SectionItem<"awards"> }) {
-  return (
-    <TimelineItem
-      title={item.title}
-      meta={item.issuer || undefined}
-      date={item.issuedDate}
-      description={item.description}
     />
   );
 }
@@ -174,9 +150,7 @@ export const timelineItemViews: LayoutSectionItemMap = {
   skills: SkillsItem,
   projects: ProjectsItem,
   education: EducationItem,
-  publications: PublicationsItem,
   certifications: CertificationsItem,
-  awards: AwardsItem,
   languages: LanguagesItem,
   references: ReferencesItem,
   organizationVolunteering: OrganizationVolunteeringItem,

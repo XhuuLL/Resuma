@@ -20,10 +20,13 @@ function withRole(overrides: Partial<ResumeDraft["sections"]["workExperience"]["
   for (const key of [
     "projects",
     "education",
-    "awards",
     "organizationVolunteering",
   ] as const) {
-    for (const item of draft.sections[key].items) item.description = "";
+    for (const item of draft.sections[key].items) {
+      item.description = "";
+      if ("startDate" in item) item.startDate = "";
+      if ("endDate" in item) item.endDate = "";
+    }
   }
   draft.sections.workExperience.items = [
     {

@@ -2,7 +2,6 @@ import { z } from "zod";
 
 import type { CollectionSectionKey } from "@/features/resume-editor/domain/sections/section-metadata";
 import {
-  awardItemSchema,
   educationItemSchema,
   languageItemSchema,
   organizationItemSchema,
@@ -14,7 +13,6 @@ import {
 import {
   certificationFormItemSchema,
   projectFormItemSchema,
-  publicationFormItemSchema,
 } from "@/features/resume-editor/forms/schemas/collection-form-item-schemas";
 import { createCollectionSectionFormSchema } from "@/features/resume-editor/forms/schemas/create-collection-section-form-schema";
 
@@ -29,9 +27,7 @@ export const collectionSectionFormSchemaMap: {
   skills: createCollectionSectionFormSchema(skillCategoryItemSchema),
   projects: createCollectionSectionFormSchema(projectFormItemSchema),
   education: createCollectionSectionFormSchema(educationItemSchema),
-  publications: createCollectionSectionFormSchema(publicationFormItemSchema),
   certifications: createCollectionSectionFormSchema(certificationFormItemSchema),
-  awards: createCollectionSectionFormSchema(awardItemSchema),
   languages: createCollectionSectionFormSchema(languageItemSchema),
   references: createCollectionSectionFormSchema(referenceItemSchema),
   organizationVolunteering: createCollectionSectionFormSchema(

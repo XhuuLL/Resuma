@@ -70,15 +70,7 @@ Expected JSON shape:
       "highlights": []
     }
   ],
-  "publications": [
-    {
-      "title": "",
-      "publisher": "",
-      "publicationUrl": "",
-      "publicationDate": "",
-      "highlights": []
-    }
-  ],
+
   "certifications": [
     {
       "certificationName": "",
@@ -88,14 +80,7 @@ Expected JSON shape:
       "credentialId": ""
     }
   ],
-  "awards": [
-    {
-      "title": "",
-      "issuer": "",
-      "issuedDate": "",
-      "highlights": []
-    }
-  ],
+
   "languages": [
     {
       "language": "",

@@ -96,19 +96,6 @@ function SkillsItem({ item }: { item: SectionItem<"skills"> }) {
   );
 }
 
-function PublicationsItem({ item }: { item: SectionItem<"publications"> }) {
-  return (
-    <InsetItemFrame
-      title={
-        <PreviewLinkedTitle title={item.title} link={item.publicationUrl} />
-      }
-      titleMeta={dotted(item.publisher)}
-      row2={item.publicationDate}
-      description={item.description}
-    />
-  );
-}
-
 function CertificationsItem({ item }: { item: SectionItem<"certifications"> }) {
   const titleMeta = dotted(item.issuingOrganization);
   const row2 = joinParts([
@@ -125,17 +112,6 @@ function CertificationsItem({ item }: { item: SectionItem<"certifications"> }) {
       }
       titleMeta={titleMeta}
       row2={row2}
-    />
-  );
-}
-
-function AwardsItem({ item }: { item: SectionItem<"awards"> }) {
-  return (
-    <InsetItemFrame
-      title={item.title}
-      titleMeta={dotted(item.issuer)}
-      row2={item.issuedDate}
-      description={item.description}
     />
   );
 }
@@ -184,9 +160,7 @@ export const insetItemViews: LayoutSectionItemMap = {
   skills: SkillsItem,
   projects: ProjectsItem,
   education: EducationItem,
-  publications: PublicationsItem,
   certifications: CertificationsItem,
-  awards: AwardsItem,
   languages: LanguagesItem,
   references: ReferencesItem,
   organizationVolunteering: OrganizationVolunteeringItem,
