@@ -7,7 +7,7 @@ import Image from "next/image";
  */
 export function BuilderFrame() {
   return (
-    <div className="relative overflow-hidden rounded-2xl border bg-background shadow-2xl shadow-emerald-500/10 ring-1 ring-black/5">
+    <div className="relative overflow-hidden rounded-2xl border bg-background shadow-2xl shadow-blue-500/10 ring-1 ring-black/5">
       <div className="flex h-10 items-center gap-2 border-b bg-muted/60 px-4">
         <span className="flex gap-1.5">
           <span className="size-2.5 rounded-full bg-red-400/80" />

@@ -44,7 +44,7 @@ function Spotlight({
   x: ReturnType<typeof useMotionValue<number>>;
   y: ReturnType<typeof useMotionValue<number>>;
 }) {
-  const background = useMotionTemplate`radial-gradient(420px 420px at ${x}px ${y}px, rgba(16, 185, 129, 0.08), transparent 70%)`;
+  const background = useMotionTemplate`radial-gradient(420px 420px at ${x}px ${y}px, rgba(37, 99, 235, 0.08), transparent 70%)`;
   return (
     <motion.div
       aria-hidden

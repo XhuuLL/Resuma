@@ -61,7 +61,7 @@ export function TemplateCarousel() {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(1000px 560px at 50% 40%, rgba(16, 185, 129, 0.14), transparent 70%)",
+            "radial-gradient(1000px 560px at 50% 40%, rgba(37, 99, 235, 0.14), transparent 70%)",
         }}
       />
 
@@ -69,7 +69,7 @@ export function TemplateCarousel() {
         <RevealItem>
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
             Sesuaikan{" "}
-            <span className="bg-linear-to-r from-emerald-500 to-teal-600 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-blue-500 to-indigo-600 bg-clip-text text-transparent">
               CV Anda
             </span>
           </h2>

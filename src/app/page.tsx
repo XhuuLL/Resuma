@@ -2,6 +2,7 @@ import { Contribute } from "@/components/landing/contribute";
 import { Features } from "@/components/landing/features";
 import { GrainOverlay } from "@/components/landing/grain-overlay";
 import { Hero } from "@/components/landing/hero";
+import { HowToUse } from "@/components/landing/how-to-use";
 import { LandingBody } from "@/components/landing/landing-body";
 import { SiteFooter } from "@/components/landing/site-footer";
 import { TemplateCarousel } from "@/components/landing/template-carousel";
@@ -13,6 +14,7 @@ export default function Home() {
       <LandingBody>
         <Hero />
         <Features />
+        <HowToUse />
         <TemplateCarousel />
         <Contribute />
       </LandingBody>

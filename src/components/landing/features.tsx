@@ -79,7 +79,7 @@ export function Features() {
       <Reveal className="mx-auto max-w-2xl text-center">
         <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
           Semua yang Anda butuhkan untuk <br />
-          <span className="bg-linear-to-r from-emerald-500 to-teal-600 bg-clip-text text-transparent">
+          <span className="bg-linear-to-r from-blue-500 to-indigo-600 bg-clip-text text-transparent">
             membuat CV Anda
           </span>
         </h2>
@@ -119,10 +119,10 @@ function FeatureCard({ feature }: { feature: Feature }) {
           className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
           style={{
             background:
-              "radial-gradient(120% 90% at 0% 0%, rgba(16, 185, 129, 0.10), transparent 55%)",
+              "radial-gradient(120% 90% at 0% 0%, rgba(37, 99, 235, 0.10), transparent 55%)",
           }}
         />
-        <span className="relative inline-flex size-10 items-center justify-center rounded-xl bg-linear-to-r from-emerald-500 to-teal-600 text-white shadow-sm ring-1 ring-emerald-500/20 transition-transform duration-300 group-hover:scale-105">
+        <span className="relative inline-flex size-10 items-center justify-center rounded-xl bg-linear-to-r from-blue-500 to-indigo-600 text-white shadow-sm ring-1 ring-blue-500/20 transition-transform duration-300 group-hover:scale-105">
           <Icon ref={iconRef} size={20} />
         </span>
         <h3 className="relative mt-4 font-semibold">{feature.title}</h3>

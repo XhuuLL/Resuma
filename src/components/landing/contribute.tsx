@@ -15,7 +15,7 @@ export function Contribute() {
         <RevealItem>
           <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">
             Mulai buat{" "}
-            <span className="bg-linear-to-r from-emerald-500 to-teal-600 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-blue-500 to-indigo-600 bg-clip-text text-transparent">
               CV Anda
             </span>
           </h2>
@@ -55,7 +55,7 @@ export function Contribute() {
   );
 }
 
-/** Faint masked grid + soft violet glow, echoing the hero backdrop. */
+/** Faint masked grid + soft blue glow, echoing the hero backdrop. */
 function CtaBackdrop() {
   const mask =
     "radial-gradient(ellipse 60% 65% at 50% 100%, black, transparent 78%)";
@@ -75,7 +75,7 @@ function CtaBackdrop() {
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(55% 60% at 50% 100%, rgba(16, 185, 129, 0.14), transparent 70%)",
+            "radial-gradient(55% 60% at 50% 100%, rgba(37, 99, 235, 0.14), transparent 70%)",
         }}
       />
     </div>
