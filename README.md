@@ -1,30 +1,27 @@
 <div align="center">
-  <a href="https://resummme.asaa.dev">
-    <img src="public/og-image.png" alt="Resummme - Open Source Resume Editor" width="800" />
+  <a href="https://Resuma.asaa.dev">
+    <img src="public/og-image.png" alt="Resuma - Open Source Resume Editor" width="800" />
   </a>
-
-  <h1>Resummme</h1>
+  <h1>Resuma</h1>
 
   <p>Build a recruiter-ready resume in minutes. Write once, preview as you type, and export a clean PDF.</p>
 
   <p>
-    <a href="https://resummme.asaa.dev"><strong>Live Demo</strong></a>
-    ·
-    <a href="https://github.com/angkasa27/resummme"><strong>GitHub Repo</strong></a>
+    <a href="https://github.com/XhuuLL/Resuma"><strong>GitHub Repo</strong></a>
   </p>
 
   <p>
-    <img src="https://img.shields.io/github/package-json/v/angkasa27/resummme?style=flat-square" alt="Version">
-    <img src="https://img.shields.io/github/stars/angkasa27/resummme?style=flat-square" alt="GitHub Stars">
-    <img src="https://img.shields.io/github/license/angkasa27/resummme?style=flat-square" alt="License" />
+    <img src="https://img.shields.io/github/package-json/v/XhuuLL/Resuma?style=flat-square" alt="Version">
+    <img src="https://img.shields.io/github/stars/XhuuLL/Resuma?style=flat-square" alt="GitHub Stars">
+    <img src="https://img.shields.io/github/license/XhuuLL/Resuma?style=flat-square" alt="License" />
   </p>
 </div>
 
 ---
 
-Resummme is a focused, fast resume editor designed to give you everything you need to craft your resume, with nothing that gets in your way. 
+Resuma is a focused, fast resume editor designed to give you everything you need to craft your resume, with nothing that gets in your way. 
 
-Built with privacy as a core principle, Resummme gives you complete ownership of your data. The codebase is fully open-source under the GNU Affero General Public License v3, with no tracking, no ads, and no paywalls. All your data stays in your browser and never leaves your machine unless you choose to use the AI or PDF export features.
+Built with privacy as a core principle, Resuma gives you complete ownership of your data. The codebase is fully open-source under the GNU Affero General Public License v3, with no tracking, no ads, and no paywalls. All your data stays in your browser and never leaves your machine unless you choose to use the AI or PDF export features.
 
 ## Features
 
@@ -140,12 +137,12 @@ Built with privacy as a core principle, Resummme gives you complete ownership of
 
 ## Quick Start
 
-The quickest way to run Resummme locally:
+The quickest way to run Resuma locally:
 
 ```bash
 # Clone the repository
-git clone https://github.com/angkasa27/resummme.git
-cd resummme
+git clone https://github.com/XhuuLL/Resuma.git
+cd Resuma
 
 # Install dependencies
 pnpm install
