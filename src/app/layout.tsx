@@ -31,9 +31,6 @@ export const metadata: Metadata = {
   title: "Resuma | Editor CV",
   description:
     "Editor CV sumber terbuka dan gratis. Tulis sekali, pratinjau langsung, ekspor ke PDF — tanpa perlu akun",
-  icons: {
-    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
-  },
   alternates: {
     canonical: "/",
   },
