@@ -43,7 +43,7 @@ function createDefaultProjectItem() {
     startDate: "Juli 2026",
     endDate: "Agustus 2026",
     description:
-      "<ul>Proker Individu KKN Jierrrs.></ul>",
+      "<ul>Proker Individu KKN Jierrrs.</ul>",
   };
 }
 
@@ -135,7 +135,7 @@ export function createDefaultResumeDraft(): ResumeDraft {
         visible: true,
         order: 0,
         content:
-          "<p>Saya adalah seorang mahasiswa di Universitas Muhadi Setiabudi dengan minat yang kuat dalam pengembangan software, khususnya di bidang low-level, mobile, website dan desktop. Selain itu, saya memiliki pengalaman dalam pengembangan website dan sistem informasi, yang saya dapatkan dari berbagai proyek. Saya juga rutin berkontribusi di GitHub untuk mendokumentasikan dan membagikan proyek-proyek yang saya kerjakan. Sebagai pengguna Windows And Linux, saya selalu bersemangat untuk terus belajar dan mendalami teknologi baru.</p>",
+          "<p>Saya adalah seorang mahasiswa kadang kiding di Universitas Muhadi Setiabudi. Punya obsesi ngoding dari hal-hal low-level sampai mobile ceritanee, website, dan desktop—pokoknya kalau ada token AI yang belum limit, saya sikat! Punya pengalaman bikin web dan sistem informasi, meski kadang kode saya jalan karena campur tangan doa dan mukjizat. Hobi nongkrong di GitHub buat pamer proyek (dan sesekali mengamankan kode orang). Sebagai penganut sekte Windows dan Linux sekaligus umpamanee (ya, sok men jierr), saya selalu siap ngulik teknologi baru sebelum deadline menyerang.</p>",
       },
       workExperience: {
         visible: true,
