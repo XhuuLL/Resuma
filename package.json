@@ -32,6 +32,7 @@
     "lucide-react": "^1.24.0",
     "motion": "^12.42.2",
     "next": "16.2.10",
+    "next-themes": "^0.4.6",
     "pdf-parse-v1": "npm:pdf-parse@1.1.1",
     "puppeteer-core": "^24.43.1",
     "react": "19.2.7",

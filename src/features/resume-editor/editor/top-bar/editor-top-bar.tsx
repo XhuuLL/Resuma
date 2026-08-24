@@ -10,6 +10,7 @@ import {
   TriangleAlert,
   Undo2Icon,
 } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 import { Button } from "@/components/ui/button";
 import { ButtonGroup, ButtonGroupSeparator } from "@/components/ui/button-group";
@@ -59,28 +60,30 @@ export function EditorTopBar({
 
       <div className="flex-1" />
 
+      <ThemeToggle />
+
       <ButtonGroup>
         <Button
           type="button"
           onClick={onUndo}
           disabled={!canUndo}
-          aria-label="Undo"
+          aria-label="Urungkan"
           variant="outline"
           size={isMobile ? "icon-sm" : "sm"}
         >
           <Undo2Icon className="size-4" />
-          <span className="hidden md:flex">Undo</span>
+          <span className="hidden md:flex">Urungkan</span>
         </Button>
         <Button
           type="button"
           onClick={onRedo}
           disabled={!canRedo}
-          aria-label="Redo"
+          aria-label="Ulangi"
           variant="outline"
           size={isMobile ? "icon-sm" : "sm"}
         >
           <Redo2Icon className="size-4" />
-          <span className="hidden md:flex">Redo</span>
+          <span className="hidden md:flex">Ulangi</span>
         </Button>
       </ButtonGroup>
 
@@ -99,14 +102,14 @@ export function EditorTopBar({
           )}
           {/* Label yields under 360px; `sr-only`, not `hidden`, keeps the button's name. */}
           <span className="sr-only min-[360px]:not-sr-only">
-            {isExportingPdf ? "Generating PDF…" : "Download PDF"}
+            {isExportingPdf ? "Membuat PDF…" : "Unduh PDF"}
           </span>
         </Button>
         <ButtonGroupSeparator className="bg-primary-foreground/25" />
         <DropdownMenu>
           <DropdownMenuTrigger
             render={
-              <Button type="button" size="icon-sm" aria-label="More file actions">
+              <Button type="button" size="icon-sm" aria-label="Opsi berkas lainnya">
                 <ChevronDownIcon className="size-4" />
               </Button>
             }
@@ -114,7 +117,7 @@ export function EditorTopBar({
           <DropdownMenuContent align="end" className="w-44">
             <DropdownMenuItem onClick={onExportJson}>
               <FileDownIcon className="size-4" />
-              Export JSON
+              Ekspor JSON
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -130,17 +133,17 @@ function SaveStatusIndicator({ status }: { status: SaveStatus }) {
   const config = {
     saving: {
       icon: <Spinner aria-hidden className="size-3.5" />,
-      label: "Saving…",
+      label: "Menyimpan…",
       className: "text-muted-foreground",
     },
     saved: {
       icon: <CheckIcon className="size-3.5" />,
-      label: "Saved",
+      label: "Tersimpan",
       className: "text-muted-foreground",
     },
     error: {
       icon: <TriangleAlert className="size-3.5" />,
-      label: "Save failed",
+      label: "Gagal menyimpan",
       className: "text-destructive",
     },
   }[status];

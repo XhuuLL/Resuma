@@ -68,7 +68,7 @@ export function Hero() {
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-500 opacity-75" />
               <span className="relative inline-flex size-1.5 rounded-full bg-emerald-500" />
             </span>
-            Free &amp; open source
+            Gratis &amp; sumber terbuka
             <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" />
           </motion.a>
 
@@ -83,8 +83,7 @@ export function Hero() {
             variants={itemVariants}
             className="max-w-md text-balance text-muted-foreground"
           >
-            Build a recruiter-ready resume in minutes. Write once, preview as
-            you type, and export a clean PDF.
+            Buat CV siap kerja dalam hitungan menit. Tulis sekali, pratinjau langsung, dan ekspor ke PDF yang rapi.
           </motion.p>
 
           <motion.div
@@ -118,7 +117,7 @@ export function Hero() {
             variants={itemVariants}
             className="text-xs text-muted-foreground"
           >
-            No sign-up. No paywall. Your data never leaves your browser.
+            Tanpa daftar. Tanpa bayar. Data Anda tidak pernah keluar dari peramban.
           </motion.p>
         </motion.div>
       </div>

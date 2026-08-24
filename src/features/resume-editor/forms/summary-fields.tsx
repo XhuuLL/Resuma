@@ -23,7 +23,7 @@ export function SummaryFields({ ctx }: { ctx: SummaryFormContext }) {
         data-invalid={getFieldState("content", formState).invalid || undefined}
       >
         <FieldLabel className="sr-only">
-          <FieldLabelText label="Summary content" />
+          <FieldLabelText label="Konten ringkasan" />
         </FieldLabel>
         <FieldContent>
           <Controller
@@ -32,8 +32,8 @@ export function SummaryFields({ ctx }: { ctx: SummaryFormContext }) {
             render={({ field }) => (
               <RichTextEditorWithImprove
                 value={field.value}
-                ariaLabel="Summary content"
-                placeholder="Summarize your experience, key skills, and career focus in 2-3 sentences."
+                ariaLabel="Konten ringkasan"
+                placeholder="Ringkas pengalaman Anda, keahlian utama, dan fokus karier dalam 2-3 kalimat."
                 invalid={getFieldState("content", formState).invalid}
                 onChange={(value) =>
                   form.setValue("content", value, {

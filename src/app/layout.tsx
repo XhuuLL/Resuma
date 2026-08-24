@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toast";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { ThemeProvider } from "@/components/theme-provider";
 import {
   fontLato,
   fontLora,
@@ -27,9 +28,9 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://resuma.vercel.app"),
-  title: "Resuma | Resume Editor",
+  title: "Resuma | Editor CV",
   description:
-    "A free, open-source resume editor. Write once, preview instantly, export to PDF — no account required",
+    "Editor CV sumber terbuka dan gratis. Tulis sekali, pratinjau langsung, ekspor ke PDF — tanpa perlu akun",
   icons: {
     icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
   },
@@ -37,26 +38,26 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Resuma | Resume Editor",
+    title: "Resuma | Editor CV",
     description:
-      "A free, open-source resume editor. Write once, preview instantly, export to PDF — no account required",
+      "Editor CV sumber terbuka dan gratis. Tulis sekali, pratinjau langsung, ekspor ke PDF — tanpa perlu akun",
     url: "/",
-    siteName: "Resuma | Resume Editor",
+    siteName: "Resuma | Editor CV",
     type: "website",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Resuma | Resume Editor",
+        alt: "Resuma | Editor CV",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Resuma | Resume Editor",
+    title: "Resuma | Editor CV",
     description:
-      "A free, open-source resume editor. Write once, preview instantly, export to PDF — no account required",
+      "Editor CV sumber terbuka dan gratis. Tulis sekali, pratinjau langsung, ekspor ke PDF — tanpa perlu akun",
     images: ["/og-image.png"],
   },
 };
@@ -68,7 +69,8 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="id"
+      suppressHydrationWarning
       className={cn(
         "h-full",
         "antialiased",
@@ -84,8 +86,15 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col">
-        <TooltipProvider>{children}</TooltipProvider>
-        <Toaster />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <TooltipProvider>{children}</TooltipProvider>
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );

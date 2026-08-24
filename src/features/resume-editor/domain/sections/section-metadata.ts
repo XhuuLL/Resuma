@@ -40,17 +40,17 @@ export const sectionLabels: Record<
   Exclude<EditorPanelKey, "profile">,
   string
 > = {
-  summary: "Summary",
-  workExperience: "Work Experience",
-  skills: "Skills",
-  projects: "Projects",
-  education: "Education",
-  publications: "Publications",
-  certifications: "Certifications",
-  awards: "Awards",
-  languages: "Languages",
-  references: "References",
-  organizationVolunteering: "Organizations & Volunteering",
+  summary: "Ringkasan",
+  workExperience: "Pengalaman Kerja",
+  skills: "Keahlian",
+  projects: "Proyek",
+  education: "Pendidikan",
+  publications: "Publikasi",
+  certifications: "Sertifikasi",
+  awards: "Penghargaan",
+  languages: "Bahasa",
+  references: "Referensi",
+  organizationVolunteering: "Organisasi & Relawan",
 };
 
 /** Single read path for a section heading: the user's title if set, else the built-in
@@ -63,11 +63,11 @@ export function sectionTitleFor(
 }
 
 export const languageProficiencyOptions = [
-  "Elementary proficiency",
-  "Limited working proficiency",
-  "Professional working proficiency",
-  "Full professional proficiency",
-  "Native or bilingual proficiency",
+  "Kemahiran dasar",
+  "Kemahiran kerja terbatas",
+  "Kemahiran kerja profesional",
+  "Kemahiran profesional penuh",
+  "Kemahiran penutur asli atau dwibahasa",
 ];
 
 export function isCollectionSectionKey(

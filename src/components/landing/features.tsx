@@ -37,39 +37,39 @@ type Feature = {
 const FEATURES: Feature[] = [
   {
     Icon: PenToolIcon,
-    title: "Adapts to your device",
+    title: "Beradaptasi dengan perangkat Anda",
     description:
-      "A drag-and-drop canvas on desktop, guided forms on mobile. One editor that fits the screen you're on.",
+      "Kanvas tarik-lepas di desktop, formulir terpandu di ponsel. Satu editor yang sesuai dengan layar Anda.",
   },
   {
     Icon: MonitorCheckIcon,
-    title: "Instant live preview",
+    title: "Pratinjau langsung",
     description:
-      "Every change renders immediately in a pixel-accurate preview, so what you see is exactly what you export.",
+      "Setiap perubahan langsung terlihat dalam pratinjau akurat, sehingga apa yang Anda lihat adalah apa yang Anda ekspor.",
   },
   {
     Icon: GalleryThumbnailsIcon,
-    title: "Multiple templates",
+    title: "Beragam templat",
     description:
-      "Switch between nineteen polished layouts like classic, timeline, and atlas without retyping a thing.",
+      "Beralih di antara sembilan belas tata letak yang dipoles seperti klasik, linimasa, dan atlas tanpa mengetik ulang sedikit pun.",
   },
   {
     Icon: FileCheckIcon,
-    title: "Import and export PDF",
+    title: "Impor dan ekspor PDF",
     description:
-      "Bring in an existing resume to get started, then export a clean, print-ready PDF in one click.",
+      "Bawa CV yang ada untuk memulai, lalu ekspor PDF bersih yang siap cetak dengan satu klik.",
   },
   {
     Icon: SparklesIcon,
-    title: "AI assistance",
+    title: "Bantuan AI",
     description:
-      "Sharpen your wording and match job-description keywords with built-in AI insights and suggestions.",
+      "Pertajam kata-kata Anda dan cocokkan kata kunci deskripsi pekerjaan dengan wawasan dan saran AI bawaan.",
   },
   {
     Icon: FingerprintIcon,
-    title: "Private by default",
+    title: "Privasi sebagai standar",
     description:
-      "No account, no tracking, no paywall. Your data stays in your browser, and the whole project is on GitHub.",
+      "Tanpa akun, tanpa pelacakan, tanpa bayar. Data Anda tetap di peramban, dan seluruh proyek ada di GitHub.",
   },
 ];
 
@@ -78,14 +78,13 @@ export function Features() {
     <section className="mx-auto max-w-6xl px-6 py-24 sm:py-32 md:py-48">
       <Reveal className="mx-auto max-w-2xl text-center">
         <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-          Everything you need to <br />
+          Semua yang Anda butuhkan untuk <br />
           <span className="bg-linear-to-r from-emerald-500 to-teal-600 bg-clip-text text-transparent">
-            craft your resume
+            membuat CV Anda
           </span>
         </h2>
         <p className="mt-4 text-muted-foreground">
-          A focused, fast editor with the features that matter, and nothing that
-          gets in your way.
+          Editor yang fokus, cepat dengan fitur yang penting, dan tidak ada yang menghalangi Anda.
         </p>
       </Reveal>
 

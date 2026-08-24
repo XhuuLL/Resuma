@@ -14,17 +14,17 @@ export function Contribute() {
       <RevealStagger className="relative mx-auto max-w-3xl text-center">
         <RevealItem>
           <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">
-            Start building your{" "}
+            Mulai buat{" "}
             <span className="bg-linear-to-r from-emerald-500 to-teal-600 bg-clip-text text-transparent">
-              resume
+              CV Anda
             </span>
           </h2>
         </RevealItem>
         <RevealItem>
           <p className="mx-auto mt-5 max-w-xl text-balance text-muted-foreground">
-            Open the editor and have a polished PDF ready in minutes. Resuma
-            is open source, so if you build something useful or spot a bug, the
-            repo is open to your pull requests.
+            Buka editor dan siapkan PDF rapi dalam hitungan menit. Resuma
+            adalah sumber terbuka, jadi jika Anda membangun sesuatu yang berguna atau menemukan bug,
+            repositori kami terbuka untuk pull request Anda.
           </p>
         </RevealItem>
         <RevealItem className="mt-9 flex flex-wrap items-center justify-center gap-3">

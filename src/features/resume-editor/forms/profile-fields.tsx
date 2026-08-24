@@ -74,8 +74,8 @@ export function ProfileFields({ ctx, idPrefix }: ProfileFieldsProps) {
           register={register}
           name="fullName"
           id={`${idPrefix}-full-name`}
-          label="Full name"
-          placeholder="Full name"
+          label="Nama lengkap"
+          placeholder="Nama lengkap"
           autoComplete="name"
           invalid={invalid("fullName")}
           error={error("fullName")}
@@ -86,8 +86,8 @@ export function ProfileFields({ ctx, idPrefix }: ProfileFieldsProps) {
           register={register}
           name="headline"
           id={`${idPrefix}-headline`}
-          label="Job title"
-          placeholder="Job title"
+          label="Profesi"
+          placeholder="Profesi"
           autoComplete="organization-title"
           icon={<BriefcaseBusinessIcon />}
           invalid={invalid("headline")}
@@ -99,8 +99,8 @@ export function ProfileFields({ ctx, idPrefix }: ProfileFieldsProps) {
           register={register}
           name="location"
           id={`${idPrefix}-location`}
-          label="Location"
-          placeholder="City, country"
+          label="Lokasi"
+          placeholder="Kota, negara"
           autoComplete="address-level2"
           icon={<MapPin />}
           invalid={invalid("location")}
@@ -111,7 +111,7 @@ export function ProfileFields({ ctx, idPrefix }: ProfileFieldsProps) {
           register={register}
           name="phone"
           id={`${idPrefix}-phone`}
-          label="Phone number"
+          label="Nomor telepon"
           placeholder="+62 822-3044-2367"
           type="tel"
           autoComplete="tel"
@@ -126,8 +126,8 @@ export function ProfileFields({ ctx, idPrefix }: ProfileFieldsProps) {
           register={register}
           name="email"
           id={`${idPrefix}-email`}
-          label="Email address"
-          placeholder="email.me@here.is"
+          label="Alamat email"
+          placeholder="email.saya@di.sini"
           type="email"
           autoComplete="email"
           inputMode="email"
@@ -143,15 +143,14 @@ export function ProfileFields({ ctx, idPrefix }: ProfileFieldsProps) {
           step. A flex gap can't space a visible rule, so it's margin+padding. */}
       <FieldSet className="mt-4 border-t pt-4">
         <FieldLegend>
-          Links
+          Tautan
           <Badge variant="secondary">
-            {extraLinks.fields.length} item
-            {extraLinks.fields.length === 1 ? "" : "s"}
+            {extraLinks.fields.length} tautan
           </Badge>
         </FieldLegend>
 
         {extraLinks.fields.length === 0 ? (
-          <div className="text-sm text-muted-foreground">No links added.</div>
+          <div className="text-sm text-muted-foreground">Belum ada tautan yang ditambahkan.</div>
         ) : (
           // A row list, not a form — 8px. The labels here are sr-only, so
           // there's no floated label needing the 16px clearance.
@@ -167,7 +166,7 @@ export function ProfileFields({ ctx, idPrefix }: ProfileFieldsProps) {
                     data-invalid={invalid(urlFieldName)}
                   >
                     <FieldLabel htmlFor={inputId} className="sr-only">
-                      <FieldLabelText label={`Link ${index + 1}`} />
+                      <FieldLabelText label={`Tautan ${index + 1}`} />
                     </FieldLabel>
                     <FieldContent>
                       <Controller
@@ -202,8 +201,8 @@ export function ProfileFields({ ctx, idPrefix }: ProfileFieldsProps) {
                     type="button"
                     variant="ghost"
                     size="icon"
-                    aria-label={`Remove link ${index + 1}`}
-                    title={`Remove link ${index + 1}`}
+                    aria-label={`Hapus tautan ${index + 1}`}
+                    title={`Hapus tautan ${index + 1}`}
                     onClick={() => links.requestDelete(index)}
                     className={DESTRUCTIVE_ICON_CLASS}
                   >
@@ -217,7 +216,7 @@ export function ProfileFields({ ctx, idPrefix }: ProfileFieldsProps) {
 
         <Button type="button" className="w-full" onClick={links.add}>
           <PlusIcon data-icon="inline-start" />
-          Add Link
+          Tambah Tautan
         </Button>
       </FieldSet>
 
@@ -227,8 +226,8 @@ export function ProfileFields({ ctx, idPrefix }: ProfileFieldsProps) {
           if (!open) links.cancelDelete();
         }}
         onConfirm={links.confirmDelete}
-        title="Remove link?"
-        description="This link will be removed from your profile."
+        title="Hapus tautan?"
+        description="Tautan ini akan dihapus dari profil Anda."
       />
 
       <PhotoCropDialog
@@ -320,7 +319,7 @@ function PhotoAvatarButton({
       type="button"
       id={id}
       onClick={onClick}
-      aria-label={hasPhoto ? "Change profile photo" : "Upload profile photo"}
+      aria-label={hasPhoto ? "Ganti foto profil" : "Unggah foto profil"}
       className={cn(
         "group relative size-20 shrink-0 overflow-hidden rounded-full bg-muted ring-1 ring-border outline-none transition-[color,box-shadow]",
         FOCUS_RING_CLASS,
@@ -330,7 +329,7 @@ function PhotoAvatarButton({
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={url}
-          alt="Profile preview"
+          alt="Pratinjau profil"
           className="h-full w-full object-cover"
         />
       ) : (
@@ -366,7 +365,7 @@ function PhotoField({
   return (
     <Field className={className} data-invalid={error ? true : undefined}>
       <FieldLabel htmlFor={id} className="sr-only">
-        <FieldLabelText label="Profile photo" />
+        <FieldLabelText label="Foto profil" />
       </FieldLabel>
       <FieldContent>
         <div
@@ -405,7 +404,7 @@ function PhotoField({
                 onClick={photo.openPicker}
               >
                 <ImageUpIcon data-icon="inline-start" />
-                {hasPhoto ? "Change photo" : "Upload photo"}
+                {hasPhoto ? "Ganti foto" : "Unggah foto"}
               </Button>
               {hasPhoto ? (
                 <Button
@@ -416,13 +415,13 @@ function PhotoField({
                   className={DESTRUCTIVE_ICON_CLASS}
                 >
                   <Trash2Icon data-icon="inline-start" />
-                  Remove
+                  Hapus
                 </Button>
               ) : null}
             </div>
             <p className="text-xs text-muted-foreground">
-              Drag &amp; drop or click to upload. PNG, JPG, or WEBP up to
-              8&nbsp;MB. Crop and zoom after choosing.
+              Seret &amp; lepas atau klik untuk mengunggah. PNG, JPG, atau WEBP hingga
+              8&nbsp;MB. Potong dan perbesar setelah memilih.
             </p>
           </div>
         </div>

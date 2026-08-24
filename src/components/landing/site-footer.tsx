@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const GITHUB_URL = "https://github.com/XhuuLL/Resuma";
 
@@ -12,6 +13,7 @@ export function SiteFooter() {
           </span>
         </div>
         <nav className="flex items-center gap-5">
+          <ThemeToggle />
           <Link href="/editor" className="hover:text-foreground">
             Editor
           </Link>
@@ -24,7 +26,9 @@ export function SiteFooter() {
             GitHub
           </a>
         </nav>
-        <span>Created by fatkhul</span>
+        <div className="flex items-center gap-4">
+          <span>Dibuat oleh Fatkhul</span>
+        </div>
       </div>
     </footer>
   );

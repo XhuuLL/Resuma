@@ -68,16 +68,16 @@ export function TemplateCarousel() {
       <RevealStagger className="relative mx-auto max-w-2xl px-6 text-center">
         <RevealItem>
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Customize your{" "}
+            Sesuaikan{" "}
             <span className="bg-linear-to-r from-emerald-500 to-teal-600 bg-clip-text text-transparent">
-              resume
+              CV Anda
             </span>
           </h2>
         </RevealItem>
         <RevealItem>
           <p className="mt-4 text-muted-foreground">
-            Pick a template, tweak the colors and fonts, and make it
-            unmistakably yours.
+            Pilih templat, sesuaikan warna dan font, dan jadikan itu
+            sepenuhnya milik Anda.
           </p>
         </RevealItem>
       </RevealStagger>
