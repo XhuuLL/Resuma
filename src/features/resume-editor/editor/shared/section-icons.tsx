@@ -4,7 +4,6 @@ import {
   GlobeIcon,
   GraduationCapIcon,
   LanguagesIcon,
-  LinkIcon,
   TrophyIcon,
   UserRoundIcon,
   WrenchIcon,

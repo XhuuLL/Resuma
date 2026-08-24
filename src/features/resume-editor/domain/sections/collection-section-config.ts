@@ -1,11 +1,11 @@
 import type {
-  AwardItem,
+
   CertificationItem,
   EducationItem,
   LanguageItem,
   OrganizationItem,
   ProjectItem,
-  PublicationItem,
+
   ReferenceItem,
   SkillCategoryItem,
   WorkExperienceItem,
@@ -33,9 +33,7 @@ export const collectionSectionConfigs: Record<
     | SkillCategoryItem
     | ProjectItem
     | EducationItem
-    | PublicationItem
     | CertificationItem
-    | AwardItem
     | LanguageItem
     | ReferenceItem
     | OrganizationItem
@@ -113,23 +111,7 @@ export const collectionSectionConfigs: Record<
     }),
     dateRange: { startName: "startDate", endName: "endDate" },
   },
-  publications: {
-    key: "publications",
-    title: "Publikasi",
-    description: "Pembicaraan, makalah, blog, atau hasil penelitian yang patut ditampilkan.",
-    addLabel: "Tambah publikasi",
-    itemTitle: "Publikasi",
-    emptyTitle: "Belum ada publikasi",
-    emptyDescription: "Tambahkan karya yang diterbitkan bila itu memperkuat profil Anda.",
-    createItem: () => ({
-      id: createLocalId("publication"),
-      title: "",
-      publisher: "",
-      publicationUrl: "",
-      publicationDate: "Jan 2024",
-      description: "<p></p>",
-    }),
-  },
+
   certifications: {
     key: "certifications",
     title: "Sertifikasi",
@@ -148,22 +130,7 @@ export const collectionSectionConfigs: Record<
       credentialId: "",
     }),
   },
-  awards: {
-    key: "awards",
-    title: "Penghargaan",
-    description: "Pengakuan, hadiah, dan penghargaan dengan konteks singkat.",
-    addLabel: "Tambah penghargaan",
-    itemTitle: "Penghargaan",
-    emptyTitle: "Belum ada penghargaan",
-    emptyDescription: "Tambahkan penghargaan hanya jika benar-benar memperkuat CV.",
-    createItem: () => ({
-      id: createLocalId("award"),
-      title: "",
-      issuer: "",
-      issuedDate: "Jan 2024",
-      description: "<p></p>",
-    }),
-  },
+
   languages: {
     key: "languages",
     title: "Bahasa",
